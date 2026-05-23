@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Student Login</title>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    * { 
+        margin:0; 
+        padding:0; 
+        box-sizing:border-box; 
+        -webkit-tap-highlight-color: transparent;
+    }
+    html {
+        height: 100%;
+        overflow-x: hidden;
+    }
+    body { 
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); 
+        display:flex; 
+        justify-content:center; 
+        align-items:center; 
+        min-height:100vh;
+        padding: 20px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .login-container { 
+        background:#fff; 
+        padding: 30px 25px; 
+        border-radius:20px; 
+        box-shadow:0 15px 50px rgba(0,0,0,0.2); 
+        width:100%; 
+        max-width:450px;
+        min-width: 300px;
+        position: relative;
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-out;
+        margin: auto;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(to right, #4CAF50, #2E8B57);
+    }
+    .logo-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .logo {
+        max-width: 150px;
+        height: auto;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h2 { 
+        text-align:center; 
+        margin-bottom:25px; 
+        color:#333; 
+        font-weight: 600;
+        font-size: 24px;
+        position: relative;
+    }
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(to right, #4CAF50, #2E8B57);
+        border-radius: 3px;
+    }
+    .input-group { 
+        position:relative; 
+        margin-bottom:20px; 
+    }
+    input { 
+        width:100%; 
+        padding: 14px 14px 14px 45px; 
+        border: 2px solid #e0e0e0; 
+        border-radius:10px; 
+        font-size:16px; 
+        transition: all 0.3s ease; 
+        background: #f9f9f9;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    input:focus { 
+        border-color:#4CAF50; 
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); 
+        outline: none;
+        background: #fff;
+    }
+    /* Fix for iOS zoom on input focus */
+    @media screen and (max-width: 768px) {
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+    }
+    .input-group label { 
+        position:absolute; 
+        top:50%; 
+        left:45px; 
+        transform:translateY(-50%); 
+        background: transparent; 
+        padding:0 5px; 
+        color:#999; 
+        pointer-events:none; 
+        transition:0.3s; 
+        font-size: 16px;
+    }
+    input:focus + label, 
+    input:not(:placeholder-shown) + label { 
+        top: -10px; 
+        left: 15px;
+        font-size:13px; 
+        color:#4CAF50; 
+        font-weight:600; 
+        background: white;
+        padding: 0 8px;
+    }
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 18px;
+        transition: 0.3s;
+        z-index: 2;
+    }
+    input:focus ~ .input-icon {
+        color: #4CAF50;
+    }
+    .password-toggle { 
+        position:absolute; 
+        right:15px; 
+        top:50%; 
+        transform:translateY(-50%); 
+        cursor:pointer; 
+        color:#999; 
+        font-size: 16px;
+        transition: 0.3s;
+        z-index: 2;
+        padding: 10px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    .password-toggle:hover, .password-toggle:active {
+        color: #4CAF50;
+    }
+    button { 
+        width:100%; 
+        padding:16px; 
+        background:linear-gradient(to right, #4CAF50, #2E8B57); 
+        color:white; 
+        font-size:17px; 
+        font-weight:600; 
+        border:none; 
+        border-radius:10px; 
+        cursor:pointer; 
+        transition:0.3s; 
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        position: relative;
+        overflow: hidden;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    button:hover { 
+        transform:translateY(-3px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+    button:active {
+        transform: translateY(0);
+    }
+    button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+    
+    /* ================= LOADING BUTTON ================= */
+    button.loading {
+        pointer-events: none;
+        opacity: 0.9;
+    }
+    
+    button.loading .btn-text {
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    
+    button .spinner {
+        display: none;
+        width: 22px;
+        height: 22px;
+        border: 3px solid rgba(255,255,255,0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    button.loading .spinner {
+        display: block;
+    }
+    
+    @keyframes spin {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+    
+    /* Mobile touch feedback */
+    @media (hover: none) and (pointer: coarse) {
+        button:active {
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+        .social-btn:active {
+            transform: scale(0.95);
+        }
+    }
+    button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+    button:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        20% {
+            transform: scale(50, 50);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(100, 100);
+            opacity: 0;
+        }
+    }
+    .message { 
+        text-align:center; 
+        margin-top:20px; 
+        font-size:14px; 
+        color:#555; 
+    }
+    .message a { 
+        color:#4CAF50; 
+        text-decoration:none; 
+        font-weight:600; 
+        transition: 0.2s;
+        position: relative;
+    }
+    .message a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #4CAF50;
+        transition: width 0.3s ease;
+    }
+    .message a:hover::after {
+        width: 100%;
+    }
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+    }
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: #eee;
+    }
+    .divider span {
+        padding: 0 15px;
+        color: #777;
+        font-size: 13px;
+    }
+    .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .social-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+        border: 1px solid #eee;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+        color: #555;
+        font-size: 16px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    .social-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .social-btn:nth-child(1):hover {
+        background: #DB4437;
+        color: white;
+        border-color: #DB4437;
+    }
+    .social-btn:nth-child(2):hover {
+        background: #4267B2;
+        color: white;
+        border-color: #4267B2;
+    }
+    .social-btn:nth-child(3):hover {
+        background: #0077B5;
+        color: white;
+        border-color: #0077B5;
+    }
+    .forgot-password {
+        text-align: right;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+    .forgot-password a {
+        color: #777;
+        font-size: 14px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .forgot-password a:hover {
+        color: #4CAF50;
+    }
+    
+    /* Mobile-specific optimizations */
+    @media (max-width: 768px) {
+        body {
+            padding: 15px;
+            align-items: flex-start;
+            min-height: -webkit-fill-available;
+        }
+        
+        .login-container {
+            padding: 25px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            max-width: 120px;
+        }
+        
+        input {
+            padding: 16px 16px 16px 45px;
+        }
+        
+        button {
+            padding: 16px;
+            font-size: 16px;
+        }
+        
+        .social-btn {
+            width: 44px;
+            height: 44px;
+        }
+        
+        .password-toggle {
+            padding: 12px;
+            right: 10px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        body {
+            padding: 10px;
+        }
+        
+        .login-container {
+            padding: 20px 15px;
+            border-radius: 12px;
+        }
+        
+        h2 {
+            font-size: 20px;
+        }
+        
+        .logo {
+            max-width: 100px;
+        }
+        
+        input {
+            padding: 14px 14px 14px 45px;
+        }
+        
+        .input-icon {
+            font-size: 16px;
+            left: 12px;
+        }
+        
+        button {
+            padding: 15px;
+        }
+        
+        .social-btn {
+            width: 42px;
+            height: 42px;
+        }
+        
+        .message {
+            font-size: 13px;
+        }
+        
+        .divider span {
+            font-size: 12px;
+            padding: 0 10px;
+        }
+    }
+    
+    @media (max-width: 320px) {
+        .login-container {
+            padding: 18px 12px;
+        }
+        
+        h2 {
+            font-size: 18px;
+        }
+        
+        input {
+            padding: 12px 12px 12px 40px;
+            font-size: 15px;
+        }
+        
+        .input-icon {
+            font-size: 15px;
+            left: 10px;
+        }
+        
+        .password-toggle {
+            right: 8px;
+            font-size: 14px;
+        }
+        
+        .social-login {
+            gap: 10px;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+    
+    /* Portrait orientation fixes */
+    @media (orientation: portrait) and (max-height: 700px) {
+        body {
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+        
+        .login-container {
+            margin-top: 0;
+        }
+        
+        .logo-container {
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .divider {
+            margin: 15px 0;
+        }
+    }
+    
+    /* Landscape orientation fixes */
+    @media (orientation: landscape) and (max-height: 500px) {
+        body {
+            align-items: flex-start;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        
+        .login-container {
+            padding: 15px;
+            max-width: 400px;
+        }
+        
+        .logo-container {
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            max-width: 80px;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 12px;
+        }
+        
+        input {
+            padding: 12px 12px 12px 45px;
+        }
+        
+        .divider {
+            margin: 10px 0;
+        }
+        
+        .social-login {
+            margin-top: 15px;
+        }
+    }
+    
+    /* iOS Safari specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        body {
+            min-height: -webkit-fill-available;
+        }
+        
+        input, button {
+            -webkit-appearance: none;
+            border-radius: 10px;
+        }
+    }
+    
+    /* ================= DARK MODE SUPPORT ================= */
+    @media (prefers-color-scheme: dark) {
+        .login-container {
+            background: #1e1e1e;
+            color: #f0f0f0;
+        }
+        
+        h2 {
+            color: #f0f0f0;
+        }
+        
+        input {
+            background: #2d2d2d;
+            border-color: #444;
+            color: #f0f0f0;
+        }
+        
+        input:focus {
+            background: #333;
+        }
+        
+        input:focus + label {
+            background: #1e1e1e;
+        }
+        
+        .divider::before,
+        .divider::after {
+            background-color: #444;
+        }
+        
+        .divider span {
+            color: #aaa;
+        }
+        
+        .social-btn {
+            background: #2d2d2d;
+            border-color: #444;
+            color: #f0f0f0;
+        }
+        
+        .message {
+            color: #aaa;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo-container">
+        <img src="../assets/Ruchi logo.jpg" alt="School Logo" class="logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/150/4CAF50/FFFFFF?text=School+Logo';">
+        <h2>Student Login</h2>
+    </div>
+    <form action="login.php" method="POST" id="loginForm">
+        <!-- CSRF TOKEN ADDED RIGHT HERE -->
+        <input type="hidden" name="csrf_token" id="csrf_token" value="">
+        
+        <div class="input-group">
+            <i class="input-icon fas fa-envelope"></i>
+            <input type="email" name="email" placeholder=" " required autocomplete="email">
+            <label>Email</label>
+        </div>
+        <div class="input-group">
+            <i class="input-icon fas fa-lock"></i>
+            <input type="password" name="password" placeholder=" " required id="passwordInput" autocomplete="current-password">
+            <label>Password</label>
+            <span class="password-toggle" id="togglePass" role="button" aria-label="Show password">
+                <i class="fas fa-eye"></i>
+            </span>
+        </div>
+        <div class="forgot-password">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+        <button type="submit" id="loginButton">
+            <span class="btn-text">Login</span>
+            <div class="spinner"></div>
+        </button>
+    </form>
+    
+    <div class="divider">
+        <span>Or continue with</span>
+    </div>
+    
+    <div class="social-login">
+        <div class="social-btn" role="button" aria-label="Login with Google">G</div>
+        <div class="social-btn" role="button" aria-label="Login with Facebook">f</div>
+        <div class="social-btn" role="button" aria-label="Login with LinkedIn">in</div>
+    </div>
+    
+    <p class="message">Don't have an account? <a href="signup.html">Signup here</a></p>
+</div>
+
+<script>
+    // FIRST: Get CSRF token from PHP session and set it in the hidden field
+    // We need to fetch it from a PHP endpoint since this is an HTML file
+    window.addEventListener('DOMContentLoaded', function() {
+        fetch('get_csrf_token.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.csrf_token) {
+                    document.getElementById('csrf_token').value = data.csrf_token;
+                } else {
+                    // Fallback: generate a simple token (less secure but better than nothing)
+                    document.getElementById('csrf_token').value = 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching CSRF token:', error);
+                // Fallback
+                document.getElementById('csrf_token').value = 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2);
+            });
+    });
+    
+    // Password toggle functionality
+    const passwordInput = document.getElementById('passwordInput');
+    const togglePass = document.getElementById('togglePass');
+    const eyeIcon = togglePass.querySelector('i');
+    
+    togglePass.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+            togglePass.setAttribute('aria-label', 'Hide password');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+            togglePass.setAttribute('aria-label', 'Show password');
+        }
+    });
+    
+    // Add enter key support for password toggle
+    togglePass.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            togglePass.click();
+        }
+    });
+
+    // Function to show/hide loading animation IN THE BUTTON
+    function showLoading() {
+        const loginButton = document.getElementById('loginButton');
+        loginButton.classList.add('loading');
+        loginButton.disabled = true;
+    }
+    
+    function hideLoading() {
+        const loginButton = document.getElementById('loginButton');
+        loginButton.classList.remove('loading');
+        loginButton.disabled = false;
+    }
+
+    // Form submission - just show loading and let PHP handle validation
+    const loginForm = document.getElementById('loginForm');
+    
+    loginForm.addEventListener('submit', () => {
+        // Simple client-side validation
+        const email = loginForm.email.value.trim();
+        const password = loginForm.password.value.trim();
+        
+        if (!email || !password) {
+            // Just prevent empty submission
+            return;
+        }
+        
+        // Show loading spinner IN THE BUTTON
+        showLoading();
+        
+        // The form will submit normally to login.php
+        // PHP will handle all validation and alerts
+    });
+
+// Forgot password functionality - UPDATE THIS SECTION
+document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    // Get the email from the input field
+    const emailInput = document.querySelector('input[name="email"]');
+    const email = emailInput ? emailInput.value.trim() : '';
+    
+    if (!email) {
+        // Agar email field empty hai toh alert dikhao
+        Swal.fire({
+            icon: 'warning',
+            title: 'Email Required',
+            text: 'Please enter your email address first',
+            confirmButtonColor: '#4CAF50'
+        });
+        return;
+    }
+    
+    if (!email.includes('@') || !email.includes('.')) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Email',
+            text: 'Please enter a valid email address',
+            confirmButtonColor: '#4CAF50'
+        });
+        return;
+    }
+    
+    // Redirect to forgot_password.php with email in URL
+    window.location.href = `forgot_password.php?email=${encodeURIComponent(email)}`;
+});
+    
+    // Social login buttons (simplified)
+    document.querySelectorAll('.social-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const provider = btn.textContent;
+            alert(`${provider} login is not available at this time. Please use email login.`);
+        });
+    });
+    
+    // Reset button when page loads/refreshes
+    window.addEventListener('load', function() {
+        hideLoading();
+    });
+    
+    // Reset button if page reloads
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            hideLoading();
+        }
+    });
+</script>
+
+</body>
+</html>

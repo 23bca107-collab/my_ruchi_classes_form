@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruchi Classes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Connection Error Banner - Updated */
+.connection-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff6b6b;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-weight: 500;
+  z-index: 99999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.connection-error.show {
+  display: flex;
+  animation: slideDown 0.5s ease;
+}
+
+.connection-error i {
+  margin-right: 8px;
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.connection-error h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.connection-error p {
+  font-size: 18px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Disable all content when offline */
+body.offline #content {
+  display: none;
+}
+
+/* SweetAlert z-index fix */
+.swal2-container {
+  z-index: 99999 !important;
+}
+
+/* Login popup z-index adjustment */
+.login-popup {
+  z-index: 9999;
+}
+
+.login-content {
+  position: relative;
+  z-index: 10000;
+}
+
+/* Logo Section */
+.logo-wrapper {
+  text-align: center;
+  padding: 20px 0;
+  background: #ffffff;
+}
+
+.logo-img {
+  height: 130px;
+  object-fit: contain;
+}
+
+/* Top Contact Info Bar */
+.top-bar {
+  background-color: #002f6c;
+  color: white;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.contact-link {
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Navigation */
+header {
+  width: 100%;
+  background: #162938;
+  padding: 12px 8vw;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: box-shadow 0.3s ease;
+}
+
+header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+  font-size: 0.95em;
+}
+
+.navigation a:hover {
+  color: #D17411;
+}
+
+.navigation a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #D17411;
+  left: 0;
+  bottom: -6px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.navigation a:hover::after {
+  transform: scaleX(1);
+}
+
+.btnAdmission, .btnLogin-popup {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 0;
+  font-size: 0.9em;
+}
+
+.btnAdmission {
+  background: #D17411;
+  color: white;
+  border: none;
+}
+
+.btnAdmission:hover {
+  background: #b55c0a;
+}
+
+.btnLogin-popup {
+  background: transparent;
+  color: white;
+  border: 2px solid #D17411;
+}
+
+.btnLogin-popup:hover {
+  background: rgba(209, 116, 17, 0.2);
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger-menu span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* HERO SECTION - FIXED */
+.hero-section {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Desktop / Laptop */
+@media (min-width: 769px) {
+  .hero-section {
+    height: calc(100vh - 200px);
+    min-height: 520px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+    min-height: 400px;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 480px) {
+  .hero-section {
+    height: 50vh;
+    min-height: 350px;
+  }
+}
+
+.slider {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* ===== HERO SECTION OVERLAY - FIXED WELCOME MESSAGE ===== */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  padding-top: 30px;
+}
+
+.overlay h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  word-wrap: break-word;
+  max-width: 90%;
+  line-height: 1.2;
+  padding: 0 20px;
+}
+
+.overlay h1 span {
+  color: #D17411;
+}
+
+.overlay p {
+  font-size: 1.5rem;
+  max-width: 700px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  padding: 0 20px;
+}
+
+/* ===== WELCOME OVERLAY (FIRST WELCOME) - FIXED ===== */
+#welcomeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0f0f0f, #2c2c2c);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.welcome-message h1 {
+  font-size: 4.5rem;
+  color: #ffffff;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeZoomIn 1.5s ease forwards;
+  padding: 0 20px;
+  line-height: 1.2;
+  word-wrap: break-word;
+  max-width: 90%;
+}
+
+.welcome-message h1 span {
+  color: #D17411;
+  position: relative;
+  animation: shimmer 2s infinite linear;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #D17411;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: floatParticles linear infinite;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* ===== RESPONSIVE SIZES FOR WELCOME MESSAGES ===== */
+
+/* For Hero Section Overlay (Second Welcome) */
+@media (max-width: 1024px) {
+  .overlay h1 {
+    font-size: 3rem;
+  }
+  .overlay p {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .overlay h1 {
+    font-size: 2.2rem;
+    line-height: 1.3;
+    padding: 0 15px;
+  }
+  .overlay p {
+    font-size: 1.1rem;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay h1 {
+    font-size: 1.8rem;
+    padding: 0 12px;
+  }
+  .overlay p {
+    font-size: 0.95rem;
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .overlay h1 {
+    font-size: 1.6rem;
+  }
+  .overlay p {
+    font-size: 0.85rem;
+  }
+}
+
+/* For Welcome Overlay (First Welcome) */
+@media (max-width: 1024px) {
+  .welcome-message h1 {
+    font-size: 3.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-message h1 {
+    font-size: 2.8rem;
+    line-height: 1.1;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-message h1 {
+    font-size: 2.2rem;
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .welcome-message h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 60px 10vw;
+  background-color: #f4f4f4;
+}
+
+.feature {
+  max-width: 300px;
+  text-align: center;
+  margin: 20px;
+}
+
+.feature-icon {
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  padding: 20px;
+  display: inline-block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon img {
+  width: 40px;
+  height: 40px;
+}
+
+.feature h2 {
+  margin-top: 20px;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.feature p {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333;
+}
+
+/* About Us Section */
+#AboutUs {
+  padding: 80px 20px;
+  background: #f9f9f9;
+}
+
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-text {
+  flex: 1 1 500px;
+}
+
+.about-image {
+  flex: 1 1 400px;
+  text-align: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 18px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s;
+}
+
+.about-image img:hover {
+  transform: scale(1.03);
+}
+
+.section-subtitle {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title {
+  font-size: 38px;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.about-description {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.7;
+}
+
+.why-title {
+  font-size: 24px;
+  color: #333;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.about-features {
+  list-style: none;
+  padding: 0;
+}
+
+.about-features li {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* Password container styles */
+.password-container {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.password-match-error {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+/* Founder Section */
+.founder-section {
+  background: #fdf2f8;
+  padding: 80px 20px 60px;
+  text-align: center;
+  position: relative;
+}
+
+.founder-header h4 {
+  font-size: 18px;
+  color: #333;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.founder-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+.founder-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 320px;
+  margin: 0 auto;
+  text-align: center;
+  transition: 0.3s ease;
+  position: relative;
+  top: -40px;
+}
+
+.founder-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.founder-card img {
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+  object-position: center;
+  background-color: #f5f5f5;
+}
+
+.founder-card-body {
+  padding: 20px;
+}
+
+.founder-card-body h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.founder-card-body p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.founder-card-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.founder-card-body ul li {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.founder-card-body ul li i {
+  color: #e91e63;
+  margin-right: 8px;
+}
+
+/* Teacher Section */
+.teacher-section {
+  padding: 50px 20px;
+  background: #f8f8f8;
+  text-align: center;
+}
+
+.teacher-header h4 {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.teacher-header h2 {
+  font-size: 36px;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+.teacher-slider {
+  overflow: hidden;
+  position: relative;
+}
+
+ .teacher-slider-track {
+  display: flex;
+  /* width will be determined by contents; JS toggles continuous animation on laptop */
+  --scroll-distance: 0px;
+  --scroll-duration: 0s;
+  transition: transform 0.3s ease;
+}
+
+/* Continuous scroll animation (uses CSS vars set by JS) */
+@keyframes teacher-scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(var(--scroll-distance) * -1)); }
+}
+
+/* Desktop / Laptop ONLY – Continuous Left to Right */
+@media (min-width: 769px) {
+  .teacher-slider-track.continuous {
+    animation-name: teacher-scroll-left;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--scroll-duration);
+    will-change: transform;
+    transition: none;
+  }
+}
+
+/* Mobile – No continuous animation */
+@media (max-width: 768px) {
+  .teacher-slider-track {
+    animation: none !important;
+  }
+}
+
+.teacher-card {
+  flex: 0 0 auto;
+  width: 300px;
+  margin: 10px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.teacher-card:hover {
+  transform: scale(1.05);
+}
+
+.teacher-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.teacher-card-body {
+  padding: 15px;
+}
+
+.teacher-card-body h3 {
+  font-size: 22px;
+  color: #333;
+  margin: 5px 0;
+}
+
+.teacher-card-body p {
+  font-size: 16px;
+  color: #777;
+}
+
+.teacher-card-body ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.teacher-card-body ul li {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Teacher Navigation Controls */
+.teacher-nav-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.teacher-nav-btn {
+  padding: 10px 20px;
+  background: #D17411;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.teacher-nav-btn:hover {
+  background: #b55c0a;
+  transform: translateY(-2px);
+}
+
+.teacher-nav-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Contact Section */
+.contact-section {
+  background-color: #f9f9f9;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.contact-box {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.contact-logo img {
+  width: 130px;
+  height: auto;
+  border-radius: 15px;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 220px;
+  margin: 20px;
+}
+
+.contact-info p {
+  margin: 15px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.contact-info a {
+  color: #222;
+  text-decoration: none;
+  margin-left: 8px;
+}
+
+.contact-info a:hover {
+  color: #D17411;
+}
+
+.contact-info i {
+  color: #D17411;
+  font-size: 20px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.social-icons a i {
+  font-size: 30px;
+  color: #D91C23;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a i:hover {
+  transform: scale(1.2);
+  color: #D17411;
+}
+
+/* Login Popup */
+.login-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-popup.active {
+  display: flex;
+}
+
+.login-content {
+  background: linear-gradient(135deg, #162938, #002f6c);
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  border: 2px solid #D17411;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.tab-buttons {
+  display: flex;
+  margin-bottom: 25px;
+  gap: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+  background: rgba(209, 116, 17, 0.3);
+  border-bottom: 3px solid #D17411;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.login-content h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: white;
+}
+
+form input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 16px;
+}
+
+form input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+form button {
+  width: 100%;
+  padding: 14px;
+  background: #D17411;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+form button:hover {
+  background: #b55c0a;
+  transform: translateY(-2px);
+}
+
+.login-content p {
+  text-align: center;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.login-content a {
+  color: #D17411;
+  text-decoration: none;
+}
+
+.login-content a:hover {
+  text-decoration: underline;
+}
+
+/* Error styles */
+.error-highlight {
+  border: 1px solid #ff6b6b !important;
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeInTab {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    text-shadow: 0 0 2px #F96D00, 0 0 4px #F96D00;
+  }
+  50% {
+    text-shadow: 0 0 6px #F96D00, 0 0 8px #F96D00;
+  }
+  100% {
+    text-shadow: 0 0 2px #F96D00, 0 0 4px #F96D00;
+  }
+}
+
+@keyframes floatParticles {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-800px) translateX(200px);
+    opacity: 0;
+  }
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes imageFade {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Styles - General */
+@media (max-width: 768px) {
+  .logo-wrapper {
+    padding: 15px 0;
+  }
+
+  .logo-img {
+    height: 80px;
+  }
+
+  .top-bar {
+    font-size: 0.85em;
+    padding: 8px;
+  }
+
+  header {
+    padding: 10px 5vw;
+    justify-content: space-between;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .navigation {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #162938;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .navigation.active {
+    max-height: 500px;
+  }
+
+  .navigation a {
+    font-size: 0.9em;
+    margin: 8px 0;
+  }
+
+  .btnAdmission, .btnLogin-popup {
+    margin: 5px 0;
+    padding: 6px 10px;
+    font-size: 0.75em;
+    min-width: auto;
+  }
+
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-text, .about-image {
+    flex: 1 1 100%;
+  }
+
+  .teacher-slider-track {
+    width: 100% !important;
+    animation: none !important;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .teacher-card {
+    width: calc(100vw - 40px) !important;
+    margin: 10px !important;
+  }
+
+  .teacher-nav-buttons {
+    display: flex;
+  }
+
+  .contact-box {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .swal2-container {
+    z-index: 99999 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-img {
+    height: 60px;
+  }
+
+  .top-bar {
+    font-size: 0.75em;
+    padding: 6px;
+  }
+
+  .navigation a {
+    font-size: 0.8em;
+  }
+
+  .btnAdmission, .btnLogin-popup {
+    padding: 5px 8px;
+    font-size: 0.7em;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .logo-img {
+    height: 50px;
+  }
+
+  .btnAdmission, .btnLogin-popup {
+    padding: 4px 6px;
+    font-size: 0.65em;
+  }
+
+  .navigation a {
+    font-size: 0.75em;
+  }
+}
+
+/* Additional contact-section mobile tweaks */
+@media (max-width: 768px) {
+  .contact-box { padding: 20px 14px; }
+  .contact-logo img { width: 110px; height: auto; border-radius: 12px; }
+  .contact-info { text-align: center; margin: 8px 0; }
+  .contact-info p { font-size: 16px; margin: 6px 0; }
+  .social-icons { justify-content: center; }
+  .social-icons a i { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+  .contact-box { padding: 14px 12px; gap: 14px; }
+  .contact-logo img { width: 90px; }
+  .contact-info p { font-size: 15px; }
+  .social-icons a i { font-size: 22px; }
+}
+
+@media (max-width: 360px) {
+  .contact-logo img { width: 78px; }
+  .contact-info p { font-size: 14px; }
+  .social-icons a i { font-size: 20px; }
+}
+
+/* Mobile view – hide duplicate teacher cards */
+@media (max-width: 768px) {
+  .teacher-slider-track .teacher-card:nth-child(n+6) {
+    display: none;
+  }
+
+  /* Features section mobile adjustments */
+  .features {
+    padding: 40px 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .feature {
+    max-width: 100%;
+    width: 90%;
+    margin: 15px auto;
+  }
+
+  .feature-icon {
+    padding: 15px;
+  }
+
+  .feature h2 {
+    font-size: 1.3em;
+    margin-top: 15px;
+  }
+
+  .feature p {
+    font-size: 0.95em;
+    color: #555;
+  }
+
+  /* About Us section mobile adjustments */
+  #AboutUs {
+    padding: 50px 16px;
+  }
+
+  .about-container {
+    gap: 25px;
+  }
+
+  .about-text {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .about-image {
+    flex: 1 1 100%;
+  }
+
+  .about-image img {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .about-description {
+    font-size: 16px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .why-title {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+  }
+
+  .about-features li {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  /* Founder section mobile adjustments */
+  .founder-section {
+    padding: 50px 16px 40px;
+  }
+
+  .founder-header h4 {
+    font-size: 16px;
+  }
+
+  .founder-header h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .founder-card {
+    max-width: 100%;
+    top: -20px;
+  }
+
+  .founder-card img {
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .founder-card-body {
+    padding: 16px;
+  }
+
+  .founder-card-body h3 {
+    font-size: 20px;
+  }
+
+  .founder-card-body p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small features adjustments */
+  .features {
+    padding: 30px 12px;
+    gap: 20px;
+  }
+
+  .feature {
+    width: 100%;
+    margin: 10px auto;
+  }
+
+  .feature-icon {
+    padding: 12px;
+  }
+
+  .feature h2 {
+    font-size: 1.2em;
+    margin-top: 12px;
+  }
+
+  .feature p {
+    font-size: 0.9em;
+  }
+
+  /* About section adjustments */
+  #AboutUs {
+    padding: 35px 12px;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .about-description {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .why-title {
+    font-size: 18px;
+    margin-top: 15px;
+  }
+
+  .about-features li {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  /* Founder section */
+  .founder-section {
+    padding: 35px 12px 30px;
+  }
+
+  .founder-header h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .founder-card img {
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .founder-card-body h3 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Very small screens */
+  .features {
+    padding: 25px 10px;
+  }
+
+  .feature h2 {
+    font-size: 1.1em;
+  }
+
+  .feature p {
+    font-size: 0.85em;
+  }
+
+  #AboutUs {
+    padding: 25px 10px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+
+  .about-description {
+    font-size: 14px;
+  }
+
+  .about-features li {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .founder-header h2 {
+    font-size: 20px;
+  }
+
+  .founder-card-body h3 {
+    font-size: 16px;
+  }
+}
+
+/* ===== MOBILE HAMBURGER EXTRA ITEMS ===== */
+@media (max-width: 768px) {
+  /* hide extra buttons by default */
+  .mobile-only-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* show ONLY when hamburger is open */
+  .navigation.active .mobile-only-menu {
+    display: flex;
+  }
+}
+/* Desktop Buttons Container */
+.desktop-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-left: 20px;
+}
+
+/* Mobile - Hide desktop buttons */
+@media (max-width: 768px) {
+  .desktop-buttons {
+    display: none;
+  }
+}
+
+/* Mobile - Show mobile menu buttons */
+@media (min-width: 769px) {
+  .mobile-only-menu {
+    display: none !important;
+  }
+}
+
+/* Admission Form button ka background hatao */
+.navigation .btnAdmission[onclick*="admission_form"] {
+  background: transparent !important;
+  color: white !important;
+  border: 2px solid #D17411 !important;
+}
+
+.navigation .btnAdmission[onclick*="admission_form"]:hover {
+  background: rgba(209, 116, 17, 0.2) !important;
+}
+
+/* ===== REMOVE ORANGE COLOR FROM MOBILE HAMBURGER BUTTONS ===== */
+@media (max-width: 768px) {
+
+  .mobile-only-menu .btnAdmission {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 2px solid #D17411 !important;
+    border-radius: 6px;
+  }
+
+  .mobile-only-menu .btnAdmission:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+  <!-- Connection Error Banner - Updated -->
+  <div class="connection-error" id="connectionError">
+    <i class="fas fa-wifi"></i>
+    <h2>No Internet Connection</h2>
+    <p>Please check your network settings and try again.</p>
+    <p>All website functionality is disabled until connection is restored.</p>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div id="content">
+    <div id="welcomeOverlay">
+      <div class="welcome-message">
+        <h1>Welcome to <span>Ruchi Classes</span></h1>
+      </div>
+    </div>
+
+    <div class="logo-wrapper">
+      <img src="assets/Ruchi logo.jpg" alt="Ruchi Logo" class="logo-img">
+      <p align="center" style="color:#D17411;"><b>Transforming Potential into Achievement at Ruchi Classes</b></p>
+    </div>
+
+    <div class="top-bar">
+      <span>📞 <a href="tel:+919898624729" class="contact-link">+91 98986 24729</a></span>
+      <span>📧 <a href="mailto:ruchi.tabibpathan@gmail.com" class="contact-link">ruchi.tabibpathan@gmail.com</a></span>
+    </div>
+
+<header>
+  <nav class="navigation">
+    <a href="#home">Home</a>
+    <a href="#AboutUs">About Us</a>
+    <a href="#founderSection">Faculty</a>
+    <a href="#Contact">Contact</a>
+    
+    <!-- DESKTOP BUTTONS (visible only on desktop) -->
+    <div class="desktop-buttons">
+      <button type="button" class="btnAdmission" 
+        onclick="window.location.href='student/admission_form.html'">
+        Admission Form
+      </button>
+      
+      <a href="student/student_login.html" class="btnLogin-popup">
+        Student Portal
+      </a>
+      
+      <a href="teacher/teacher_login.php" class="btnLogin-popup">
+        Teacher Portal
+      </a>
+    </div>
+    
+    <!-- MOBILE BUTTONS (visible only on mobile) -->
+    <div class="mobile-only-menu">
+      <button type="button" class="btnAdmission mobile-hamburger-item"
+        onclick="window.location.href='student/admission_form.html'">
+        Admission Form
+      </button>
+
+      <a href="student/student_login.html" class="btnAdmission mobile-hamburger-item">
+        Student Portal
+      </a>
+
+      <a href="teacher/teacher_login.php" class="btnAdmission mobile-hamburger-item">
+        Teacher Portal
+      </a>
+    </div>
+  </nav>
+  <div class="hamburger-menu" id="hamburgerMenu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+    <!-- HERO SECTION WITH FIXES -->
+    <section class="hero-section" id="home">
+      <div class="slider">
+        <!-- Only 2 slides, no repetition -->
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+      </div>
+      <div class="overlay">
+        <h1>Welcome to Our <span>Ruchi Coaching Institute</span></h1>
+        <p>Get the best guidance to achieve your academic goals.</p>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-book fa-2x" style="color:#002f6c;"></i>
+        </div>
+        <h2>Offline Courses</h2>
+        <p>Our offline courses offer structured classroom learning with direct interaction.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-chalkboard-teacher fa-2x" style="color:#002f6c;"></i>
+        </div>
+        <h2>Our Faculty</h2>
+        <p>Our teaching staff is an ocean of knowledge. Ready to counter any doubt coming from students.</p>
+      </div>
+    </section>
+
+    <section id="AboutUs">
+      <div class="about-container">
+        <div class="about-text">
+          <h2 class="section-subtitle">About Us</h2>
+          <h1 class="section-title">Welcome to Our Coaching Institute</h1>
+          <p class="about-description">
+            Established in <strong>2004</strong>, <strong>Ruchi Classes</strong> has proudly delivered offline coaching excellence for over <strong>20 years</strong>.
+          </p>
+          <p class="about-description">
+            We specialize in <strong>conceptual clarity</strong>, <strong>personalized attention</strong>, and <strong>consistent performance tracking</strong>, ensuring your academic success.
+          </p>
+
+          <h3 class="why-title">Why Choose Ruchi Classes?</h3>
+          <ul class="about-features">
+            <li>📘 Classes 6 to 10 — Maths, Science, English, Social Studies</li>
+            <li>📚 11 & 12 Commerce — Accountancy, Business Studies, Economics</li>
+            <li>🏫 Offline-Only Classes</li>
+            <li>🎓 20+ Years of Excellence</li>
+            <li>📝 Regular Testing & Assessments</li>
+            <li>👥 Personalized Attention to Every Student</li>
+            <li>🧠 Focus on Deep Conceptual Learning</li>
+          </ul>
+        </div>
+
+        <div class="about-image">
+          <img src="assets/class.jpg" alt="Classroom at Ruchi Classes">
+        </div>
+      </div>
+    </section>
+
+    <section class="founder-section" id="founderSection">
+      <div class="founder-header">
+        <h4>OUR FOUNDER</h4>
+        <h2>Meet the Visionary</h2>
+      </div>
+      <div class="founder-card">
+        <img src="assets/tabib.jpg" alt="Mr. Tabib Pathan">
+        <div class="founder-card-body">
+          <h3>Mr. Tabib Pathan</h3>
+          <p>Founder & Owner</p>
+          <ul>
+            <li><i class="fas fa-briefcase"></i> 20+ years of teaching experience</li>
+            <li><i class="fas fa-chalkboard-teacher"></i> B.Com, BA, B.Ed</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  <section class="teacher-section" id="Faculty">
+    <div class="teacher-header">
+      <h4>OUR TEACHER</h4>
+      <h2>Meet Our Faculty</h2>
+    </div>
+
+    <div class="teacher-slider">
+      <div class="teacher-slider-track">
+
+        <!-- Faculty Card 1 -->
+        <div class="teacher-card">
+          <img src="assets/pravin.jpg" alt="Praveen Kumar Sharma">
+          <div class="teacher-card-body">
+            <h3>Mr. Praveen Kumar Sharma</h3>
+            <p>Experience: 16 Years</p>
+            <ul>
+              <li>B.Sc, M.Sc, MBA</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Faculty Card 2 -->
+        <div class="teacher-card">
+          <img src="assets/talib.jpg" alt="Talib Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Talib Sir</h3>
+            <p>Experience: 9 Years</p>
+            <ul>
+              <li>B.Com, M.Com, CMA</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Faculty Card 3 -->
+        <div class="teacher-card">
+          <img src="assets/sunilgupta.jpg" alt="Sunil Gupta">
+          <div class="teacher-card-body">
+            <h3>Mr. Sunil Gupta</h3>
+            <p>Experience: 36 Years</p>
+            <ul>
+              <li>B.Com, M.Com, Inter CA</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Faculty Card 4 -->
+        <div class="teacher-card">
+          <img src="assets/rishi.jpg" alt="Rishi Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Rishi Sir</h3>
+            <p>Experience: 7 Years</p>
+            <ul>
+              <li>M.Sc, B.Ed (Physics)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Faculty Card 5 -->
+        <div class="teacher-card">
+          <img src="assets/sambhu.jpg" alt="Sambhu Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Sambhu Sir</h3>
+            <p>Experience: 24 Years</p>
+            <ul>
+              <li>M.A (Economics)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Duplicate Cards for Continuous Effect -->
+        <div class="teacher-card">
+          <img src="assets/pravin.jpg" alt="Praveen Kumar Sharma">
+          <div class="teacher-card-body">
+            <h3>Mr. Praveen Kumar Sharma</h3>
+            <p>Experience: 16 Years</p>
+            <ul>
+              <li>B.Sc, M.Sc, MBA</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="teacher-card">
+          <img src="assets/talib.jpg" alt="Talib Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Talib Sir</h3>
+            <p>Experience: 9 Years</p>
+            <ul>
+              <li>B.Com, M.Com, CMA</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="teacher-card">
+          <img src="assets/sunilgupta.jpg" alt="Sunil Gupta">
+          <div class="teacher-card-body">
+            <h3>Mr. Sunil Gupta</h3>
+            <p>Experience: 36 Years</p>
+            <ul>
+              <li>B.Com, M.Com, Inter CA</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="teacher-card">
+          <img src="assets/rishi.jpg" alt="Rishi Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Rishi Sir</h3>
+            <p>Experience: 7 Years</p>
+            <ul>
+              <li>M.Sc, B.Ed (Physics)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="teacher-card">
+          <img src="assets/sambhu.jpg" alt="Sambhu Sir">
+          <div class="teacher-card-body">
+            <h3>Mr. Sambhu Sir</h3>
+            <p>Experience: 24 Years</p>
+            <ul>
+              <li>M.A (Economics)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Navigation for Mobile -->
+    <div class="teacher-nav-buttons">
+      <button class="teacher-nav-btn" id="prevTeacher">← Previous</button>
+      <button class="teacher-nav-btn" id="nextTeacher">Next →</button>
+    </div>
+  </section>
+
+  <!-- Login Popup -->
+  <div class="login-popup" id="loginPopup">
+    <div class="login-content">
+      <span class="close-btn" onclick="closeLogin()">&times;</span>
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="showTab('loginTab', event)">Login</button>
+        <button class="tab-btn" onclick="showTab('signupTab', event)">Sign Up</button>
+      </div>
+
+      <!-- Login Tab -->
+      <div id="loginTab" class="tab-content active">
+        <h2>Student Login</h2>
+        <form id="loginForm">
+          <input type="email" name="email" placeholder="Email" required>
+          <div class="password-container">
+            <input type="password" name="password" id="loginPassword" placeholder="Password" required>
+            <span class="toggle-password" onclick="togglePassword('loginPassword')">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <p style="text-align:center; margin-top:15px; color:rgba(255,255,255,0.8);">
+          Don't have an account? <a href="#" onclick="showTab('signupTab', event)" style="color:#D17411;">Sign up</a>
+          <br>
+          <a href="#" onclick="showForgotPassword()" style="color:#D17411;">Forgot Password?</a>
+        </p>
+      </div>
+
+      <!-- Signup Tab - UPDATED VERSION -->
+      <div id="signupTab" class="tab-content">
+        <h2>Student Registration</h2>
+        <form id="signupForm">
+          <input type="text" name="name" placeholder="Full Name" required>
+          <input type="email" name="gmail" placeholder="Gmail (must match admission form)" required>
+          
+          <div class="password-container">
+            <input type="password" name="password" id="password" placeholder="Password (min 8 characters)" minlength="8" required>
+            <span class="toggle-password" onclick="togglePassword('password')">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+          
+          <div class="password-container">
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+            <span class="toggle-password" onclick="togglePassword('confirm_password')">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+          
+          <div id="passwordError" class="password-match-error">Passwords do not match!</div>
+          
+          <button type="submit">Register</button>
+        </form>
+        <p style="text-align:center; margin-top:15px; color:rgba(255,255,255,0.8);">
+          Already have an account? <a href="#" onclick="showTab('loginTab', event)" style="color:#D17411;">Login</a>
+        </p>
+      </div>
+
+      <!-- Forgot Password Tab -->
+      <div id="forgotPasswordTab" class="tab-content">
+        <h2>Reset Password</h2>
+        <form id="forgotPasswordForm">
+          <input type="email" name="email" placeholder="Enter your registered email" required>
+          <button type="submit">Send Reset Link</button>
+        </form>
+        <p style="text-align:center; margin-top:15px; color:rgba(255,255,255,0.8);">
+          Remember your password? <a href="#" onclick="showTab('loginTab', event)" style="color:#D17411;">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>  
+    <section class="contact-section" id="Contact">
+      <div class="contact-box">
+        <div class="contact-logo">
+          <img src="assets/Ruchi logo.jpg" alt="Ruchi Logo">
+        </div>
+        <div class="contact-info">
+          <p>📍 <a href="https://maps.app.goo.gl/d2fTL58zSDyzCS1TA?g_st=ac" target="_blank">Ruchi Classes, Vadodara</a></p>
+          <p>📞 <a href="tel:+919898624729">+91 98986 24729</a></p>
+          <p>📧 <a href="mailto:ruchi.tabibpathan@gmail.com">ruchi.tabibpathan@gmail.com</a></p>
+        </div>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/share/19FFwXsriR/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com/tabib_pathan?igsh=dWxuMDJvcWRneTN1" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://maps.app.goo.gl/d2fTL58zSDyzCS1TA?g_st=ac" target="_blank"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+    </section>
+  </div> <!-- End of content wrapper -->
+
+<script>
+// Internet connection monitoring
+function updateConnectionStatus() {
+  const connectionError = document.getElementById('connectionError');
+  const content = document.getElementById('content');
+  
+  if (!navigator.onLine) {
+    connectionError.classList.add('show');
+    document.body.classList.add('offline');
+    
+    // Disable all interactive elements
+    disableAllInteractions();
+  } else {
+    connectionError.classList.remove('show');
+    document.body.classList.remove('offline');
+    
+    // Re-enable all interactive elements
+    enableAllInteractions();
+  }
+}
+
+// Function to disable all interactions
+function disableAllInteractions() {
+  // Disable all buttons
+  document.querySelectorAll('button, a').forEach(element => {
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.5';
+  });
+  
+  // Disable all forms
+  document.querySelectorAll('form').forEach(form => {
+    form.style.pointerEvents = 'none';
+    form.style.opacity = '0.5';
+  });
+  
+  // Stop animations
+  document.querySelectorAll('.teacher-slider-track').forEach(slider => {
+    slider.style.animationPlayState = 'paused';
+  });
+  
+  // Stop hero slider
+  clearInterval(slideInterval);
+}
+
+// Function to enable all interactions
+function enableAllInteractions() {
+  // Enable all buttons
+  document.querySelectorAll('button, a').forEach(element => {
+    element.style.pointerEvents = '';
+    element.style.opacity = '';
+  });
+  
+  // Enable all forms
+  document.querySelectorAll('form').forEach(form => {
+    form.style.pointerEvents = '';
+    form.style.opacity = '';
+  });
+  
+  // Resume animations
+  document.querySelectorAll('.teacher-slider-track').forEach(slider => {
+    slider.style.animationPlayState = 'running';
+  });
+  
+  // Restart hero slider
+  startHeroSlider();
+}
+
+// Check connection status on page load
+window.addEventListener('load', updateConnectionStatus);
+
+// Listen for connection changes
+window.addEventListener('online', updateConnectionStatus);
+window.addEventListener('offline', updateConnectionStatus);
+
+// Hamburger Menu Toggle
+const hamburgerMenu = document.getElementById('hamburgerMenu');
+const navigation = document.querySelector('.navigation');
+
+if (hamburgerMenu) {
+  hamburgerMenu.addEventListener('click', function() {
+    hamburgerMenu.classList.toggle('active');
+    navigation.classList.toggle('active');
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('.navigation a').forEach(link => {
+    link.addEventListener('click', function() {
+      hamburgerMenu.classList.remove('active');
+      navigation.classList.remove('active');
+    });
+  });
+}
+
+// Teacher Slider - unified auto + manual controls
+let teacherCurrentSlide = 0;
+let teacherAutoInterval = null;
+let teacherMobileAutoInterval = null; // For mobile auto-scroll one-by-one
+
+function computeCardWidth() {
+  const card = document.querySelector('.teacher-card');
+  if (!card) return 320;
+  const style = getComputedStyle(card);
+  const marginRight = parseFloat(style.marginRight) || 0;
+  return Math.round(card.offsetWidth + marginRight);
+}
+
+function slideTeacher(direction, resetAuto = true) {
+  const track = document.querySelector('.teacher-slider-track');
+  const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
+  const cardCount = cards.length / 2 >= 5 ? cards.length / 2 : cards.length; // allow duplicates
+
+  teacherCurrentSlide += direction;
+
+  if (teacherCurrentSlide >= cardCount) teacherCurrentSlide = 0;
+  if (teacherCurrentSlide < 0) teacherCurrentSlide = cardCount - 1;
+
+  const cardW = computeCardWidth();
+  const offset = -teacherCurrentSlide * cardW;
+  track.style.transform = `translateX(${offset}px)`;
+
+  if (resetAuto) restartTeacherAuto();
+}
+
+function startTeacherAuto() {
+  stopTeacherAuto();
+
+  // Enable continuous animation ONLY on desktop
+  if (window.innerWidth > 768) {
+    const track = document.querySelector('.teacher-slider-track');
+    if (!track) return;
+
+    const cards = document.querySelectorAll('.teacher-card');
+    // assume duplicates exist so half is the original set
+    const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+
+    const cardWidth = computeCardWidth();
+    const totalWidth = cardWidth * singleSetCount;
+
+    // Reset transform so animation starts cleanly from the beginning
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(0)';
+    // force reflow
+    void track.offsetWidth;
+
+    track.style.setProperty('--scroll-distance', totalWidth + 'px');
+    // duration: roughly 3s per card (tweakable)
+    track.style.setProperty('--scroll-duration', (singleSetCount * 3) + 's');
+
+    track.classList.add('continuous');
+  }
+}
+
+function stopTeacherAuto() {
+  if (teacherAutoInterval) {
+    clearInterval(teacherAutoInterval);
+    teacherAutoInterval = null;
+  }
+}
+
+function stopTeacherMobileAuto() {
+  if (teacherMobileAutoInterval) {
+    clearInterval(teacherMobileAutoInterval);
+    teacherMobileAutoInterval = null;
+  }
+}
+
+function startTeacherMobileAuto() {
+  stopTeacherMobileAuto();
+  // Auto-scroll one-by-one every 3.5 seconds on mobile
+  teacherMobileAutoInterval = setInterval(() => {
+    const track = document.querySelector('.teacher-slider-track');
+    const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
+    const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+    const cardW = computeCardWidth();
+
+    teacherCurrentSlide = (teacherCurrentSlide + 1) % singleSetCount;
+    const offset = -teacherCurrentSlide * cardW;
+    track.style.transition = 'transform 0.3s ease';
+    track.style.transform = `translateX(${offset}px)`;
+  }, 3500);
+}
+
+function restartTeacherAuto() {
+  stopTeacherAuto();
+  // small delay to avoid immediate jump after manual click
+  teacherAutoInterval = setTimeout(() => startTeacherAuto(), 2000);
+}
+
+// Pause on hover and resume
+const teacherSliderEl = document.querySelector('.teacher-slider');
+if (teacherSliderEl) {
+  teacherSliderEl.addEventListener('mouseenter', stopTeacherAuto);
+  teacherSliderEl.addEventListener('mouseleave', startTeacherAuto);
+}
+
+// Handle manual buttons with pause/resume logic
+let resumeContinuousTimeout = null;
+
+function getTranslateX(el) {
+  const style = window.getComputedStyle(el);
+  const transform = style.transform || style.webkitTransform;
+  if (!transform || transform === 'none') return 0;
+  const mat = transform.match(/matrix3d\((.+)\)/);
+  if (mat) {
+    const vals = mat[1].split(',').map(s => parseFloat(s));
+    return vals[12];
+  }
+  const mat2 = transform.match(/matrix\((.+)\)/);
+  if (mat2) {
+    const vals = mat2[1].split(',').map(s => parseFloat(s));
+    return vals[4];
+  }
+  return 0;
+}
+
+function handleTeacherButtonClick(direction) {
+  const track = document.querySelector('.teacher-slider-track');
+  if (!track) return;
+  const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
+  const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+  const cardW = computeCardWidth();
+
+  if (window.innerWidth > 768) {
+    // DESKTOP: pause continuous animation
+    track.classList.remove('continuous');
+
+    // compute current visible index from transform
+    const tx = getTranslateX(track);
+    let index = Math.round((-tx) / cardW);
+    index = ((index % singleSetCount) + singleSetCount) % singleSetCount;
+
+    teacherCurrentSlide = index + direction;
+    if (teacherCurrentSlide >= singleSetCount) teacherCurrentSlide = 0;
+    if (teacherCurrentSlide < 0) teacherCurrentSlide = singleSetCount - 1;
+
+    const offset = -teacherCurrentSlide * cardW;
+    track.style.transition = 'transform 0.3s ease';
+    track.style.transform = `translateX(${offset}px)`;
+
+    // resume continuous after 10s
+    if (resumeContinuousTimeout) clearTimeout(resumeContinuousTimeout);
+    resumeContinuousTimeout = setTimeout(() => {
+      startTeacherAuto();
+    }, 10000);
+  } else {
+    // MOBILE: pause auto-scroll, slide one card, resume after 5s
+    stopTeacherMobileAuto();
+    
+    teacherCurrentSlide += direction;
+    if (teacherCurrentSlide >= singleSetCount) teacherCurrentSlide = 0;
+    if (teacherCurrentSlide < 0) teacherCurrentSlide = singleSetCount - 1;
+
+    const offset = -teacherCurrentSlide * cardW;
+    track.style.transition = 'transform 0.3s ease';
+    track.style.transform = `translateX(${offset}px)`;
+
+    // resume auto-scroll after 5s on mobile
+    if (resumeContinuousTimeout) clearTimeout(resumeContinuousTimeout);
+    resumeContinuousTimeout = setTimeout(() => {
+      startTeacherMobileAuto();
+    }, 5000);
+  }
+}
+
+
+// Attach listeners to buttons
+const prevBtn = document.getElementById('prevTeacher');
+const nextBtn = document.getElementById('nextTeacher');
+if (prevBtn) prevBtn.addEventListener('click', () => handleTeacherButtonClick(-1));
+if (nextBtn) nextBtn.addEventListener('click', () => handleTeacherButtonClick(1));
+
+
+// Recompute on resize
+window.addEventListener('resize', function() {
+  // re-align to current slide with new widths
+  const track = document.querySelector('.teacher-slider-track');
+  if (!track) return;
+  const cardW = computeCardWidth();
+  track.style.transition = 'transform 0.3s ease';
+  track.style.transform = `translateX(${-teacherCurrentSlide * cardW}px)`;
+});
+
+// Ensure continuous mode is stopped/started when crossing mobile<->desktop
+window.addEventListener('resize', () => {
+  const track = document.querySelector('.teacher-slider-track');
+  if (!track) return;
+
+  if (window.innerWidth <= 768) {
+    // Mobile: stop continuous, start mobile auto-scroll
+    track.classList.remove('continuous');
+    stopTeacherMobileAuto();
+    startTeacherMobileAuto();
+  } else {
+    // Desktop: stop mobile auto-scroll, start continuous animation
+    stopTeacherMobileAuto();
+    stopTeacherAuto();
+    startTeacherAuto();
+  }
+});
+
+// Start autoplay when DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Attach button listeners
+  const prevBtn = document.getElementById('prevTeacher');
+  const nextBtn = document.getElementById('nextTeacher');
+  if (prevBtn) prevBtn.addEventListener('click', () => handleTeacherButtonClick(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => handleTeacherButtonClick(1));
+
+  // Small timeout to ensure images/calc widths loaded
+  setTimeout(() => {
+    if (window.innerWidth > 768) {
+      startTeacherAuto();
+    } else {
+      startTeacherMobileAuto();
+    }
+  }, 500);
+});
+
+// Enhanced form submission with connection check
+function checkConnectionBeforeSubmit(formElement, submitFunction) {
+  if (!navigator.onLine) {
+    Swal.fire({
+      icon: 'error',
+      title: 'No Internet Connection',
+      text: 'Please check your internet connection and try again.',
+      confirmButtonColor: '#D17411'
+    });
+    return false;
+  }
+  return submitFunction(formElement);
+}
+
+// Hero Slider - FIXED
+let slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
+let slideInterval;
+
+function nextSlide() {
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add("active");
+}
+
+function startHeroSlider() {
+  slideInterval = setInterval(nextSlide, 5000);
+}
+
+function stopHeroSlider() {
+  clearInterval(slideInterval);
+}
+
+// Pause slider on hover for better UX
+const heroSection = document.querySelector('.hero-section');
+heroSection.addEventListener('mouseenter', stopHeroSlider);
+heroSection.addEventListener('mouseleave', startHeroSlider);
+
+// Welcome Overlay Particles
+function createParticles() {
+  const overlay = document.getElementById("welcomeOverlay");
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.top = Math.random() * window.innerHeight + "px";
+    particle.style.animationDuration = (4 + Math.random() * 4) + "s";
+    particle.style.opacity = Math.random();
+    overlay.appendChild(particle);
+  }
+}
+
+// Welcome Overlay on page load
+window.onload = function () {
+  if (!sessionStorage.getItem("welcomeShown")) {
+    const overlay = document.getElementById("welcomeOverlay");
+    overlay.style.display = "flex";
+    createParticles();
+    setTimeout(() => {
+      overlay.classList.add("fade-out");
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 1000);
+    }, 3000);
+    sessionStorage.setItem("welcomeShown", "true");
+  } else {
+    document.getElementById("welcomeOverlay").style.display = "none";
+  }
+  
+  // Start the hero slider
+  startHeroSlider();
+};
+
+// Show Login Popup
+function openStudentLogin() {
+  document.getElementById("loginPopup").classList.add("active");
+  showTab("loginTab");
+}
+
+// Close Login Popup
+function closeLogin() {
+  document.getElementById("loginPopup").classList.remove("active");
+}
+
+// Switch Tabs in Popup
+function showTab(tabId, event) {
+  if (event) event.preventDefault();
+  document.querySelectorAll(".tab-content").forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach((btn) => btn.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+  if (event) event.currentTarget.classList.add("active");
+  else {
+    const buttons = document.querySelectorAll(".tab-btn");
+    if (tabId === "loginTab") buttons[0].classList.add("active");
+    else buttons[1].classList.add("active");
+  }
+}
+
+// Show Forgot Password Tab
+function showForgotPassword() {
+  document.querySelectorAll(".tab-content").forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach((btn) => btn.classList.remove("active"));
+  document.getElementById("forgotPasswordTab").classList.add("active");
+}
+
+// Close popup if clicked outside content
+document.getElementById("loginPopup").addEventListener("click", function (e) {
+  if (e.target === this) closeLogin();
+});
+
+// Admission redirect button
+function openAdmission() {
+  window.location.href = "admission.";
+}
+
+// Toggle Password visibility
+function togglePassword(fieldId) {
+  const passwordField = document.getElementById(fieldId);
+  const eyeIcon = passwordField.nextElementSibling.querySelector("i");
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    eyeIcon.classList.replace("fa-eye", "fa-eye-slash");
+  } else {
+    passwordField.type = "password";
+    eyeIcon.classList.replace("fa-eye-slash", "fa-eye");
+  }
+}
+
+// Signup Form Handling
+if (document.getElementById("signupForm")) {
+  document.getElementById("signupForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    checkConnectionBeforeSubmit(this, function(form) {
+      const formData = new FormData(form);
+      const submitButton = form.querySelector('button[type="submit"]');
+      const errorElement = document.getElementById("passwordError");
+
+      // Reset errors
+      errorElement.style.display = "none";
+      document.querySelectorAll(".error-highlight").forEach((el) => el.classList.remove("error-highlight"));
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm_password").value;
+
+      if (password !== confirmPassword) {
+        errorElement.style.display = "block";
+        document.getElementById("password").classList.add("error-highlight");
+        document.getElementById("confirm_password").classList.add("error-highlight");
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+
+      fetch("signup.php", {
+        method: "POST",
+        body: formData
+      })
+      .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            form.reset();
+            showTab("loginTab");
+          });
+        } else {
+          if (data.errors) {
+            let errorMessages = "";
+            for (const field in data.errors) {
+              errorMessages += `${data.errors[field]}<br>`;
+              const input = form.querySelector(`[name="${field}"]`);
+              if (input) input.classList.add("error-highlight");
+            }
+            Swal.fire({ icon: "error", title: "Registration Failed", html: errorMessages });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: data.message || "Something went wrong. Please try again.",
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+        });
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Register";
+      });
+    });
+  });
+
+  document.querySelectorAll("#signupForm input").forEach((input) =>
+    input.addEventListener("input", function () {
+      this.classList.remove("error-highlight");
+    })
+  );
+}
+
+// Login Form Handling
+if (document.getElementById("loginForm")) {
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    checkConnectionBeforeSubmit(this, function(form) {
+      const formData = new FormData(form);
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+      fetch("login.php", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "Login Successful!",
+            text: "Redirecting to dashboard...",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            window.location.href = "dashboard.php";
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: data.message,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+        });
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Login";
+      });
+    });
+  });
+}
+
+// Forgot Password Form Handling
+if (document.getElementById("forgotPasswordForm")) {
+  document.getElementById("forgotPasswordForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    checkConnectionBeforeSubmit(this, function(form) {
+      const formData = new FormData(form);
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+      fetch("forgot_password.php", {
+        method: "POST",
+        body: formData
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "Email Sent!",
+            text: data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            showTab("loginTab");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: data.message,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Something went wrong. Please try again.",
+        });
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send Reset Link";
+      });
+    });
+  });
+}
+</script>
+
+</body>
+</html>

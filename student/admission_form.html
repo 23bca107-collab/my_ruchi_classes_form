@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Student Admission Form - Ruchi Classes</title>
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           ROOT VARIABLES
+        ============================================ */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+        }
+        
+        /* ============================================
+           RESET & BASE STYLES
+        ============================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        
+        /* ============================================
+           MAIN CONTAINER
+        ============================================ */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ============================================
+           CONTENT PADDING
+        ============================================ */
+        .content {
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* ============================================
+           LOGO SECTION
+        ============================================ */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            max-width: 120px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid var(--primary-color);
+            padding: 5px;
+            background: white;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 100px;
+            }
+        }
+        
+        /* ============================================
+           HEADER SECTION
+        ============================================ */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: 700;
+        }
+        
+        header p {
+            color: #666;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+        
+        /* ============================================
+           FORM SECTIONS
+        ============================================ */
+        .form-section {
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        @media (max-width: 768px) {
+            .form-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                padding: 10px 15px;
+            }
+        }
+        
+        /* ============================================
+           FORM GROUPS
+        ============================================ */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: clamp(13px, 3.5vw, 14px);
+            color: #555;
+        }
+        
+        label i {
+            color: var(--primary-color);
+            margin-right: 6px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            min-height: 48px;
+        }
+        
+        /* Prevent zoom on iOS */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        /* ============================================
+           GRID SYSTEM
+        ============================================ */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            .row {
+                margin: 0;
+            }
+            .col {
+                flex: 100%;
+                padding: 0;
+                margin-bottom: 10px;
+                min-width: 100%;
+            }
+        }
+        
+        /* ============================================
+           BUTTON STYLES
+        ============================================ */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        button {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 52px;
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+        }
+        
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* ============================================
+           PHOTO PREVIEW
+        ============================================ */
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #ddd;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        @media (max-width: 768px) {
+            .photo-preview {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            border-radius: 8px;
+        }
+        
+        .photo-preview span {
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        /* ============================================
+           OTP INPUTS - PERFECT MOBILE VIEW
+        ============================================ */
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .otp-input {
+            width: 55px;
+            height: 65px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            line-height: 65px;
+            padding: 0;
+            margin: 0;
+            outline: none;
+        }
+        
+        .otp-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        /* Mobile responsive OTP */
+        @media (max-width: 768px) {
+            .otp-input {
+                width: 50px;
+                height: 60px;
+                font-size: 28px;
+                line-height: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .otp-input {
+                width: 45px;
+                height: 55px;
+                font-size: 26px;
+                line-height: 55px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .otp-input {
+                width: 40px;
+                height: 50px;
+                font-size: 24px;
+                line-height: 50px;
+            }
+        }
+        
+        /* ============================================
+           ERROR STATES
+        ============================================ */
+        .error-field {
+            border-color: var(--error-color) !important;
+            background-color: rgba(231, 76, 60, 0.05);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        small {
+            color: #666;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        /* ============================================
+           CUSTOM DROPDOWN ARROW
+        ============================================ */
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+        
+        /* ============================================
+           DATE INPUT
+        ============================================ */
+        input[type="date"] {
+            position: relative;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+        
+        /* ============================================
+           LOADING ANIMATION
+        ============================================ */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="logo-container">
+                <img src="../assets/Ruchi logo.jpg" alt="Ruchi Classes Logo" class="logo" onerror="this.src='https://via.placeholder.com/120?text=Ruchi'">
+            </div>
+            
+            <header>
+                <h1><i class="fas fa-graduation-cap"></i> Student Admission Form</h1>
+                <p>Please fill out all required fields (<span style="color: var(--accent-color);">*</span>)</p>
+            </header>
+            
+            <form id="admissionForm" enctype="multipart/form-data" autocomplete="off">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i> Personal Information
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="first_name" class="required"><i class="fas fa-user"></i> First Name</label>
+                                <input type="text" id="first_name" name="first_name" required placeholder="Enter first name" autocomplete="off">
+                                <div class="error-message" id="first_name_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="last_name" class="required"><i class="fas fa-user"></i> Last Name</label>
+                                <input type="text" id="last_name" name="last_name" required placeholder="Enter last name" autocomplete="off">
+                                <div class="error-message" id="last_name_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="father_name" class="required"><i class="fas fa-user-tie"></i> Father's Name</label>
+                                <input type="text" id="father_name" name="father_name" required placeholder="Enter father's name" autocomplete="off">
+                                <div class="error-message" id="father_name_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mother_name" class="required"><i class="fas fa-user-tie"></i> Mother's Name</label>
+                                <input type="text" id="mother_name" name="mother_name" required placeholder="Enter mother's name" autocomplete="off">
+                                <div class="error-message" id="mother_name_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dob" class="required"><i class="fas fa-calendar-alt"></i> Date of Birth</label>
+                                <input type="date" id="dob" name="dob" required autocomplete="off">
+                                <small>Must be at least 5 years old</small>
+                                <div class="error-message" id="dob_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="gender" class="required"><i class="fas fa-venus-mars"></i> Gender</label>
+                                <select id="gender" name="gender" required autocomplete="off">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <div class="error-message" id="gender_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo"><i class="fas fa-camera"></i> Student Photo (Optional)</label>
+                        <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png" autocomplete="off">
+                        <small>JPG/PNG, max 2MB</small>
+                        <div class="photo-preview">
+                            <img id="previewImg" src="#" alt="Preview">
+                            <span id="previewText"><i class="fas fa-image"></i> Preview</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Academic Information -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-book"></i> Academic Information
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="class" class="required"><i class="fas fa-graduation-cap"></i> Class</label>
+                                <select id="class" name="class" required autocomplete="off">
+                                    <option value="">Select Class</option>
+                                    <option value="8">Class 8</option>
+                                    <option value="9">Class 9</option>
+                                    <option value="10">Class 10</option>
+                                    <option value="11">Class 11</option>
+                                    <option value="12">Class 12</option>
+                                </select>
+                                <div class="error-message" id="class_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="medium" class="required"><i class="fas fa-language"></i> Medium</label>
+                                <select id="medium" name="medium" required autocomplete="off">
+                                    <option value="">Select Medium</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                </select>
+                                <div class="error-message" id="medium_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="board" class="required"><i class="fas fa-school"></i> Board</label>
+                                <input type="text" id="board" name="board" required placeholder="e.g., CBSE, GSEB" autocomplete="off">
+                                <div class="error-message" id="board_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="school" class="required"><i class="fas fa-school"></i> Previous School</label>
+                                <input type="text" id="school" name="school" required placeholder="Enter school name" autocomplete="off">
+                                <div class="error-message" id="school_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="previous_marks" class="required"><i class="fas fa-star"></i> Previous Marks (%)</label>
+                        <input type="number" id="previous_marks" name="previous_marks" min="0" max="100" step="0.01" required placeholder="e.g., 85.50" autocomplete="off">
+                        <div class="error-message" id="previous_marks_error"></div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-address-book"></i> Contact Information
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="parent_mobile" class="required"><i class="fas fa-phone"></i> Parent's Mobile</label>
+                                <input type="tel" id="parent_mobile" name="parent_mobile" required placeholder="10-digit mobile" maxlength="10" pattern="[0-9]{10}" autocomplete="off">
+                                <small>10-digit number</small>
+                                <div class="error-message" id="parent_mobile_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="personal_mobile" class="required"><i class="fas fa-mobile-alt"></i> Student's Mobile</label>
+                                <input type="tel" id="personal_mobile" name="personal_mobile" required placeholder="10-digit mobile" maxlength="10" pattern="[0-9]{10}" autocomplete="off">
+                                <small>10-digit number</small>
+                                <div class="error-message" id="personal_mobile_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="whatsapp" class="required"><i class="fab fa-whatsapp"></i> WhatsApp Number</label>
+                                <input type="tel" id="whatsapp" name="whatsapp" required placeholder="10-digit WhatsApp" maxlength="10" pattern="[0-9]{10}" autocomplete="off">
+                                <small>10-digit number</small>
+                                <div class="error-message" id="whatsapp_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email" class="required"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="student@example.com" autocomplete="off">
+                                <small>OTP will be sent here</small>
+                                <div class="error-message" id="email_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="city" class="required"><i class="fas fa-city"></i> City</label>
+                                <input type="text" id="city" name="city" required placeholder="Enter city" autocomplete="off">
+                                <div class="error-message" id="city_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="state" class="required"><i class="fas fa-map"></i> State</label>
+                                <input type="text" id="state" name="state" required placeholder="Enter state" autocomplete="off">
+                                <div class="error-message" id="state_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="pincode" class="required"><i class="fas fa-mail-bulk"></i> Pincode</label>
+                                <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" required placeholder="6-digit pincode" autocomplete="off">
+                                <small>6-digit pincode</small>
+                                <div class="error-message" id="pincode_error"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="reference"><i class="fas fa-user-plus"></i> Reference</label>
+                                <input type="text" id="reference" name="reference" placeholder="Optional" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="required"><i class="fas fa-home"></i> Address</label>
+                        <textarea id="address" name="address" rows="3" required placeholder="Enter full address" autocomplete="off"></textarea>
+                        <div class="error-message" id="address_error"></div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="submit" id="submitBtn">
+                        <span id="submitText"><i class="fas fa-paper-plane"></i> Submit</span>
+                        <span id="submitLoader" style="display: none;">
+                            <span class="loading"></span> Processing...
+                        </span>
+                    </button>
+                    <button type="button" id="homeBtn" class="btn-home">
+                        <i class="fas fa-home"></i> Home
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ============================================
+            // ELEMENT SELECTORS
+            // ============================================
+            const form = document.getElementById('admissionForm');
+            const photoInput = document.getElementById('photo');
+            const previewImg = document.getElementById('previewImg');
+            const previewText = document.getElementById('previewText');
+            const homeBtn = document.getElementById('homeBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitLoader = document.getElementById('submitLoader');
+            
+            let pendingEmail = '';
+            let timerInterval;
+            
+            // ============================================
+            // AUTO-SAVE FORM DATA TO LOCALSTORAGE
+            // ============================================
+            function saveFormData() {
+                const inputs = document.querySelectorAll('#admissionForm input:not([type="file"]), #admissionForm select, #admissionForm textarea');
+                inputs.forEach(input => {
+                    if (input.id) {
+                        localStorage.setItem(input.id, input.value);
+                    }
+                });
+            }
+            
+            // ============================================
+            // LOAD SAVED FORM DATA FROM LOCALSTORAGE
+            // ============================================
+            function loadSavedFormData() {
+                const inputs = document.querySelectorAll('#admissionForm input:not([type="file"]), #admissionForm select, #admissionForm textarea');
+                inputs.forEach(input => {
+                    if (input.id) {
+                        const savedValue = localStorage.getItem(input.id);
+                        if (savedValue !== null) {
+                            input.value = savedValue;
+                        }
+                    }
+                });
+                
+                // Restore OTP pending state if exists
+                const pendingEmailSaved = localStorage.getItem('pendingEmail');
+                if (pendingEmailSaved) {
+                    pendingEmail = pendingEmailSaved;
+                    // Check if OTP dialog was open
+                    if (localStorage.getItem('otpDialogOpen') === 'true') {
+                        showOTPDialog(pendingEmail);
+                    }
+                }
+            }
+            
+            // ============================================
+            // SETUP AUTO-SAVE ON INPUT
+            // ============================================
+            const allInputs = document.querySelectorAll('#admissionForm input:not([type="file"]), #admissionForm select, #admissionForm textarea');
+            allInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.id) {
+                        localStorage.setItem(this.id, this.value);
+                    }
+                });
+                
+                input.addEventListener('change', function() {
+                    if (this.id) {
+                        localStorage.setItem(this.id, this.value);
+                    }
+                });
+            });
+            
+            // Load saved data on page load
+            loadSavedFormData();
+            
+            // ============================================
+            // SET MAX DATE FOR DOB
+            // ============================================
+            const dobInput = document.getElementById('dob');
+            if (dobInput) {
+                const today = new Date();
+                const maxDate = new Date(today.getFullYear() - 5, today.getMonth(), today.getDate());
+                dobInput.max = maxDate.toISOString().split('T')[0];
+            }
+            
+            // ============================================
+            // HOME BUTTON
+            // ============================================
+            if (homeBtn) {
+                homeBtn.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Leave this page?',
+                        text: 'Any unsaved changes will be lost.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, go back',
+                        cancelButtonText: 'Stay',
+                        background: '#ffffff'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '../ruchihomepage.html';
+                        }
+                    });
+                });
+            }
+
+            // ============================================
+            // PHOTO PREVIEW
+            // ============================================
+            if (photoInput) {
+                // Check if there's saved photo in localStorage
+                const savedPhoto = localStorage.getItem('studentPhoto');
+                if (savedPhoto) {
+                    previewImg.src = savedPhoto;
+                    previewImg.style.display = 'block';
+                    previewText.style.display = 'none';
+                }
+                
+                photoInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                        if (!allowedTypes.includes(file.type)) {
+                            Swal.fire({ icon: 'error', title: 'Invalid File Type', text: 'Please select JPG, JPEG or PNG only' });
+                            this.value = '';
+                            return;
+                        }
+                        
+                        if (file.size > 2 * 1024 * 1024) {
+                            Swal.fire({ icon: 'error', title: 'File Too Large', text: 'Image must be smaller than 2MB' });
+                            this.value = '';
+                            return;
+                        }
+                        
+                        const reader = new FileReader();
+                        if (previewText) previewText.style.display = 'none';
+                        if (previewImg) previewImg.style.display = 'block';
+                        
+                        reader.onload = function(e) {
+                            if (previewImg) previewImg.src = e.target.result;
+                            // Save photo to localStorage
+                            localStorage.setItem('studentPhoto', e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+            
+            // ============================================
+            // INPUT VALIDATIONS
+            // ============================================
+            const mobileFields = ['parent_mobile', 'personal_mobile', 'whatsapp'];
+            mobileFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (input) {
+                    input.addEventListener('input', function() {
+                        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+                        saveFormData();
+                    });
+                }
+            });
+            
+            const pincodeInput = document.getElementById('pincode');
+            if (pincodeInput) {
+                pincodeInput.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+                    saveFormData();
+                });
+            }
+            
+            const marksInput = document.getElementById('previous_marks');
+            if (marksInput) {
+                marksInput.addEventListener('input', function() {
+                    let value = parseFloat(this.value);
+                    if (value > 100) this.value = 100;
+                    if (value < 0) this.value = 0;
+                    saveFormData();
+                });
+            }
+            
+            // ============================================
+            // FORM SUBMISSION
+            // ============================================
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (!validateForm()) return;
+                    
+                    // Show loading
+                    if (submitText) submitText.style.display = 'none';
+                    if (submitLoader) submitLoader.style.display = 'inline';
+                    if (submitBtn) submitBtn.disabled = true;
+                    
+                    const formData = new FormData(form);
+                    formData.append('action', 'submit');
+                    
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait',
+                        allowOutsideClick: false,
+                        background: '#ffffff',
+                        didOpen: () => Swal.showLoading()
+                    });
+                    
+                    fetch('process_admission.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.close();
+                        
+                        if (data.success) {
+                            if (data.requires_otp) {
+                                pendingEmail = data.email;
+                                localStorage.setItem('pendingEmail', data.email);
+                                showOTPDialog(data.email);
+                            } else {
+                                handleSuccessResponse(data);
+                            }
+                        } else {
+                            if (data.duplicate) {
+                                Swal.fire({ icon: 'warning', title: 'Email Already Registered!', text: data.message });
+                            } else if (data.errors) {
+                                showValidationErrors(data.errors);
+                            } else {
+                                Swal.fire({ icon: 'error', title: 'Submission Failed', text: data.message });
+                            }
+                        }
+                        
+                        // Reset button
+                        if (submitText) submitText.style.display = 'inline';
+                        if (submitLoader) submitLoader.style.display = 'none';
+                        if (submitBtn) submitBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        Swal.close();
+                        Swal.fire({ icon: 'error', title: 'Connection Error!', text: 'Please try again' });
+                        
+                        if (submitText) submitText.style.display = 'inline';
+                        if (submitLoader) submitLoader.style.display = 'none';
+                        if (submitBtn) submitBtn.disabled = false;
+                    });
+                });
+            }
+
+            // ============================================
+            // OTP DIALOG - PERFECT MOBILE VIEW
+            // ============================================
+            function showOTPDialog(email) {
+                // Save state that OTP dialog is open
+                localStorage.setItem('otpDialogOpen', 'true');
+                localStorage.setItem('pendingEmail', email);
+                
+                let otpInputs = '';
+                for (let i = 0; i < 6; i++) {
+                    otpInputs += `<input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-index="${i}">`;
+                }
+                
+                Swal.fire({
+                    title: 'Verify Email',
+                    html: `
+                        <div style="padding: 10px;">
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 10px 0; text-align: center;">
+                                <i class="fas fa-envelope" style="color: #3498db; font-size: 24px;"></i>
+                                <p style="margin: 5px 0; color: #666;">OTP sent to:</p>
+                                <strong style="font-size: 16px; word-break: break-all; color: #2c3e50;">${email}</strong>
+                            </div>
+                            
+                            <p style="margin: 20px 0 10px 0; color: #666; font-weight: 500;">Enter 6-digit OTP</p>
+                            
+                            <div class="otp-inputs">
+                                ${otpInputs}
+                            </div>
+                            
+                            <div id="otpTimer" style="text-align: center; font-size: 22px; margin: 20px 0; color: #3498db; font-weight: bold;">
+                                <i class="fas fa-hourglass-half"></i> 
+                                <span id="minutes">05</span>:<span id="seconds">00</span>
+                            </div>
+                            
+                            <div style="text-align: center; margin: 15px 0;">
+                                <a href="#" id="resendOtp" style="color: #3498db; text-decoration: none; font-weight: 600; font-size: 15px;">Didn't receive? Resend</a>
+                            </div>
+                            
+                            <div style="background: #fff3cd; color: #856404; padding: 12px; border-radius: 8px; margin-top: 20px; display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                                <i class="fas fa-shield-alt" style="font-size: 16px; color: #f39c12;"></i>
+                                <span>OTP expires in 5 minutes. Never share OTP.</span>
+                            </div>
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Verify',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonColor: '#3498db',
+                    cancelButtonColor: '#e74c3c',
+                    allowOutsideClick: false,
+                    background: '#ffffff',
+                    width: window.innerWidth < 768 ? '95%' : '450px',
+                    didOpen: () => {
+                        // Focus first input
+                        const firstInput = document.querySelector('.otp-input');
+                        if (firstInput) firstInput.focus();
+                        
+                        // Add input listeners
+                        document.querySelectorAll('.otp-input').forEach((input, index) => {
+                            input.addEventListener('input', function(e) {
+                                // Allow only one digit
+                                this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);
+                                
+                                if (this.value.length === 1) {
+                                    const next = document.querySelector(`.otp-input[data-index="${index + 1}"]`);
+                                    if (next) next.focus();
+                                }
+                            });
+                            
+                            input.addEventListener('keydown', function(e) {
+                                if (e.key === 'Backspace' && this.value.length === 0) {
+                                    const prev = document.querySelector(`.otp-input[data-index="${index - 1}"]`);
+                                    if (prev) {
+                                        prev.focus();
+                                        prev.value = '';
+                                    }
+                                }
+                            });
+                            
+                            input.addEventListener('keypress', function(e) {
+                                const charCode = e.which ? e.which : e.keyCode;
+                                if (charCode < 48 || charCode > 57) {
+                                    e.preventDefault();
+                                }
+                            });
+                        });
+                        
+                        // Start timer
+                        startTimer(300);
+                        
+                        // Resend handler
+                        document.getElementById('resendOtp').addEventListener('click', function(e) {
+                            e.preventDefault();
+                            resendOTP(email);
+                        });
+                    },
+                    preConfirm: () => {
+                        const inputs = document.querySelectorAll('.otp-input');
+                        let otp = '';
+                        inputs.forEach(input => otp += input.value);
+                        
+                        if (otp.length !== 6) {
+                            Swal.showValidationMessage('Please enter complete 6-digit OTP');
+                            return false;
+                        }
+                        
+                        return verifyOTP(email, otp);
+                    },
+                    willClose: () => {
+                        // Clear OTP dialog state when closed
+                        localStorage.removeItem('otpDialogOpen');
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed && result.value?.success) {
+                        handleSuccessResponse(result.value);
+                    } else if (result.isConfirmed && result.value) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Verification Failed',
+                            text: result.value.message || 'Invalid OTP',
+                            confirmButtonColor: '#3085d6'
+                        });
+                        
+                        // Reset OTP inputs
+                        document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+                        document.querySelector('.otp-input')?.focus();
+                    }
+                    localStorage.removeItem('otpDialogOpen');
+                });
+            }
+
+            // ============================================
+            // TIMER FUNCTION
+            // ============================================
+            function startTimer(duration) {
+                let timer = duration;
+                clearInterval(timerInterval);
+                
+                timerInterval = setInterval(() => {
+                    const minutes = Math.floor(timer / 60);
+                    const seconds = timer % 60;
+                    
+                    const minutesElem = document.getElementById('minutes');
+                    const secondsElem = document.getElementById('seconds');
+                    
+                    if (minutesElem && secondsElem) {
+                        minutesElem.textContent = minutes.toString().padStart(2, '0');
+                        secondsElem.textContent = seconds.toString().padStart(2, '0');
+                    }
+                    
+                    if (--timer < 0) {
+                        clearInterval(timerInterval);
+                        const timerDiv = document.getElementById('otpTimer');
+                        if (timerDiv) {
+                            timerDiv.innerHTML = '<span style="color: #e74c3c;">⏰ OTP expired</span>';
+                        }
+                    }
+                }, 1000);
+            }
+
+            // ============================================
+            // VERIFY OTP
+            // ============================================
+            function verifyOTP(email, otp) {
+                return fetch('process_admission.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=verify_otp&email=${encodeURIComponent(email)}&otp=${otp}`
+                })
+                .then(response => response.json())
+                .catch(() => ({ success: false, message: 'Network error' }));
+            }
+
+            // ============================================
+            // RESEND OTP
+            // ============================================
+            function resendOTP(email) {
+                const resendLink = document.getElementById('resendOtp');
+                if (resendLink) {
+                    resendLink.style.pointerEvents = 'none';
+                    resendLink.style.opacity = '0.5';
+                    resendLink.textContent = 'Sending...';
+                }
+                
+                fetch('process_admission.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'resend_otp', email })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'OTP Resent',
+                            text: 'New OTP sent to your email',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        
+                        clearInterval(timerInterval);
+                        startTimer(300);
+                    } else {
+                        Swal.fire({ icon: 'error', title: 'Failed', text: data.message });
+                    }
+                })
+                .catch(() => Swal.fire({ icon: 'error', title: 'Error', text: 'Network error' }))
+                .finally(() => {
+                    if (resendLink) {
+                        setTimeout(() => {
+                            resendLink.style.pointerEvents = 'auto';
+                            resendLink.style.opacity = '1';
+                            resendLink.textContent = "Didn't receive? Resend";
+                        }, 30000);
+                    }
+                });
+            }
+
+            // ============================================
+            // SUCCESS HANDLER
+            // ============================================
+            function handleSuccessResponse(data) {
+                clearInterval(timerInterval);
+                
+                // Clear all saved form data from localStorage after successful submission
+                localStorage.clear();
+                
+                // Reset form fields
+                form.reset();
+                
+                // Reset photo preview
+                if (previewImg) {
+                    previewImg.src = '#';
+                    previewImg.style.display = 'none';
+                }
+                if (previewText) {
+                    previewText.style.display = 'flex';
+                }
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: '🎉 Admission Successful!',
+                    html: `
+                        <div style="text-align: center;">
+                            <h3>Welcome to Ruchi Classes!</h3>
+                            <p>${data.message || 'Admission submitted successfully!'}</p>
+                            <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                                <p>Your Admission ID:</p>
+                                <h2 style="color: #667eea;">${data.admission_id || 'N/A'}</h2>
+                            </div>
+                            <p>What would you like to do next?</p>
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: '📝 Create Account',
+                    cancelButtonText: '🏠 Homepage',
+                    confirmButtonColor: '#667eea',
+                    cancelButtonColor: '#48bb78',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'signup.html';
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        window.location.href = '../ruchihomepage.html';
+                    }
+                });
+            }
+
+            // ============================================
+            // VALIDATION FUNCTIONS
+            // ============================================
+            function validateForm() {
+                let isValid = true;
+                clearAllErrors();
+                
+                const requiredFields = [
+                    'first_name', 'last_name', 'father_name', 'mother_name', 
+                    'dob', 'gender', 'class', 'medium', 'board', 'school', 
+                    'previous_marks', 'parent_mobile', 'personal_mobile', 
+                    'whatsapp', 'email', 'city', 'state', 'pincode', 'address'
+                ];
+                
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field);
+                    if (!input) return;
+                    
+                    const value = input.value.trim();
+                    
+                    if (!value) {
+                        showFieldError(field, 'This field is required');
+                        isValid = false;
+                        return;
+                    }
+                    
+                    switch(field) {
+                        case 'email':
+                            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                                showFieldError(field, 'Enter a valid email');
+                                isValid = false;
+                            }
+                            break;
+                        case 'parent_mobile':
+                        case 'personal_mobile':
+                        case 'whatsapp':
+                            if (!/^[0-9]{10}$/.test(value)) {
+                                showFieldError(field, 'Enter 10-digit number');
+                                isValid = false;
+                            }
+                            break;
+                        case 'pincode':
+                            if (!/^[0-9]{6}$/.test(value)) {
+                                showFieldError(field, 'Enter 6-digit pincode');
+                                isValid = false;
+                            }
+                            break;
+                        case 'previous_marks':
+                            const marks = parseFloat(value);
+                            if (isNaN(marks) || marks < 0 || marks > 100) {
+                                showFieldError(field, 'Enter marks between 0-100');
+                                isValid = false;
+                            }
+                            break;
+                    }
+                });
+                
+                if (!isValid) {
+                    const firstError = document.querySelector('.error-field');
+                    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                return isValid;
+            }
+            
+            function showFieldError(fieldId, message) {
+                const input = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + '_error');
+                
+                if (input) {
+                    input.classList.add('error-field');
+                }
+                
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
+            }
+            
+            function clearAllErrors() {
+                document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('input, select, textarea').forEach(input => {
+                    input.classList.remove('error-field');
+                });
+            }
+            
+            function showValidationErrors(errors) {
+                let errorHtml = '<ul style="text-align: left;">';
+                for (let field in errors) {
+                    errorHtml += `<li>${errors[field]}</li>`;
+                }
+                errorHtml += '</ul>';
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Failed',
+                    html: errorHtml
+                });
+            }
+            
+            // ============================================
+            // UTILITY FUNCTIONS
+            // ============================================
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && document.querySelector('.swal2-popup')) {
+                    document.querySelector('.swal2-confirm')?.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

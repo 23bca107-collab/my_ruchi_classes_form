@@ -1,0 +1,50 @@
+EXAM MANAGEMENT SYSTEM - PROPER TABLE STRUCTURE
+================================================
+
+TWO SEPARATE TABLES:
+
+1. EXAMS TABLE
+   Purpose: Store exam definitions created by teachers
+   Fields:
+   - id (int) - Primary key
+   - class (int) - Class number (8-12)
+   - medium (varchar) - 'English' or 'Hindi'
+   - subject (varchar) - Subject name
+   - topic (varchar) - Topic/Chapter name
+   - exam_date (date) - When exam was held
+   - exam_time (time) - Exam start time
+   - max_marks (int) - Total marks for this exam
+   - created_at (timestamp) - When record was created
+
+2. EXAM_MARKS TABLE (SIMPLIFIED)
+   Purpose: Store ONLY the marks that students got
+   Fields:
+   - id (int) - Primary key
+   - student_id (int) - FK to student table
+   - exam_id (int) - FK to exams table
+   - marks (int) - The marks scored (0-1000)
+   - UNIQUE KEY on (student_id, exam_id) - One mark per student per exam
+
+WHY THIS STRUCTURE?
+- No data duplication (class, medium are in exams, not repeated in exam_marks)
+- Proper normalization (each table has a single responsibility)
+- Easier to update (if exam details change, only exams table is updated)
+- Better query performance (smaller table = faster lookups)
+- Data integrity (UNIQUE constraint ensures no duplicate marks)
+
+RELATIONSHIPS:
+exam_marks.exam_id → exams.id
+exam_marks.student_id → student_english.id OR student_hindi.id
+
+TO JOIN DATA:
+SELECT 
+    em.student_id, 
+    em.marks,
+    e.exam_date,
+    e.subject,
+    e.max_marks,
+    e.class,
+    e.medium
+FROM exam_marks em
+INNER JOIN exams e ON em.exam_id = e.id
+WHERE e.class = 8 AND e.medium = 'Hindi'
