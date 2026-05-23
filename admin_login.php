@@ -1,5 +1,7 @@
 <?php
 session_start();
+@require __DIR__ . '/db.php';
+require_once __DIR__ . '/includes/site_settings.php';
 // Prevent caching
 header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");
@@ -25,7 +27,8 @@ if (empty($_SESSION['csrf_token'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Admin Login | Ruchi Classes</title>
+  <title><?php echo htmlspecialchars(site_settings_page_title_text($conn ?? null, 'Admin Login'), ENT_QUOTES, 'UTF-8'); ?></title>
+  <?php echo site_settings_render_favicon_tags($conn ?? null); ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>

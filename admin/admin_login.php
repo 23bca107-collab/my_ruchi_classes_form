@@ -3,6 +3,7 @@ session_start();
 
 // Try to include database connection
 @require '../db.php';
+require_once __DIR__ . '/../includes/site_settings.php';
 
 // Check if database connection exists
 if (!isset($conn) || !($conn instanceof mysqli)) {
@@ -14,6 +15,16 @@ if (!isset($conn) || !($conn instanceof mysqli)) {
 }
 
 // Function to show SweetAlert
+function adminDynamicFaviconTags(): string {
+    global $conn;
+    return site_settings_render_favicon_tags($conn ?? null);
+}
+
+function adminDynamicPageTitle(string $pageTitle): string {
+    global $conn;
+    return htmlspecialchars(site_settings_page_title_text($conn ?? null, $pageTitle), ENT_QUOTES, 'UTF-8');
+}
+
 function showAlert($icon, $title, $text, $redirect = null){
     $icon_json = json_encode((string) $icon);
     $title_json = json_encode((string) $title);
@@ -27,7 +38,8 @@ function showAlert($icon, $title, $text, $redirect = null){
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Login Alert</title>
+        <title>' . adminDynamicPageTitle('Admin Login Alert') . '</title>
+        ' . adminDynamicFaviconTags() . '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
@@ -103,7 +115,8 @@ function showErrorAlert($icon, $title, $text, $redirect = 'admin_login.php'){
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Login Error</title>
+        <title>' . adminDynamicPageTitle('Admin Login Error') . '</title>
+        ' . adminDynamicFaviconTags() . '
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
@@ -249,7 +262,8 @@ $saved_email = isset($_GET['email']) ? htmlspecialchars($_GET['email'], ENT_QUOT
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Admin Login - Ruchi Classes</title>
+<title><?php echo adminDynamicPageTitle('Admin Login'); ?></title>
+<?php echo adminDynamicFaviconTags(); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     * { 

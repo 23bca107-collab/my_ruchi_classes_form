@@ -1323,7 +1323,7 @@ form button:hover {
 
 /* Mobile view – hide duplicate teacher cards */
 @media (max-width: 768px) {
-  .teacher-slider-track .teacher-card:nth-child(n+6) {
+  .teacher-slider-track .teacher-card.duplicate-card {
     display: none;
   }
 
@@ -2113,7 +2113,8 @@ function computeCardWidth() {
 function slideTeacher(direction, resetAuto = true) {
   const track = document.querySelector('.teacher-slider-track');
   const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
-  const cardCount = cards.length / 2 >= 5 ? cards.length / 2 : cards.length; // allow duplicates
+  const hasDuplicates = track ? track.querySelector('.duplicate-card') !== null : false;
+  const cardCount = hasDuplicates ? (Math.floor(cards.length / 2) || cards.length) : cards.length;
 
   teacherCurrentSlide += direction;
 
@@ -2136,8 +2137,15 @@ function startTeacherAuto() {
     if (!track) return;
 
     const cards = document.querySelectorAll('.teacher-card');
-    // assume duplicates exist so half is the original set
-    const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+    const hasDuplicates = track.querySelector('.duplicate-card') !== null;
+    const singleSetCount = hasDuplicates ? (Math.floor(cards.length / 2) || cards.length) : cards.length;
+
+    if (singleSetCount <= 1) {
+      track.classList.remove('continuous');
+      track.style.transition = 'transform 0.3s ease';
+      track.style.transform = 'translateX(0)';
+      return;
+    }
 
     const cardWidth = computeCardWidth();
     const totalWidth = cardWidth * singleSetCount;
@@ -2175,8 +2183,11 @@ function startTeacherMobileAuto() {
   // Auto-scroll one-by-one every 3.5 seconds on mobile
   teacherMobileAutoInterval = setInterval(() => {
     const track = document.querySelector('.teacher-slider-track');
+    if (!track) return;
     const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
-    const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+    const hasDuplicates = track.querySelector('.duplicate-card') !== null;
+    const singleSetCount = hasDuplicates ? (Math.floor(cards.length / 2) || cards.length) : cards.length;
+    if (singleSetCount <= 1) return;
     const cardW = computeCardWidth();
 
     teacherCurrentSlide = (teacherCurrentSlide + 1) % singleSetCount;
@@ -2223,7 +2234,9 @@ function handleTeacherButtonClick(direction) {
   const track = document.querySelector('.teacher-slider-track');
   if (!track) return;
   const cards = document.querySelectorAll('.teacher-slider-track .teacher-card');
-  const singleSetCount = Math.floor(cards.length / 2) || cards.length;
+  const hasDuplicates = track.querySelector('.duplicate-card') !== null;
+  const singleSetCount = hasDuplicates ? (Math.floor(cards.length / 2) || cards.length) : cards.length;
+  if (singleSetCount <= 1) return;
   const cardW = computeCardWidth();
 
   if (window.innerWidth > 768) {

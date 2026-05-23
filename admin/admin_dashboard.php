@@ -8,6 +8,8 @@ ob_start();
 // Include admin authentication
 require_once 'admin_auth.php';
 require_once __DIR__ . '/admin_notifications_ui.php';
+require_once __DIR__ . '/../includes/site_settings.php';
+require_once __DIR__ . '/../includes/faculty.php';
 
 // Require admin authentication
 requireAdminAuth();
@@ -334,6 +336,7 @@ $pending_teachers = $conn->query("SELECT COUNT(*) as count FROM teachers WHERE (
 $pending_teachers = $pending_teachers ? $pending_teachers->fetch_assoc()['count'] : 0;
 
 $pending_setup = $pending_teachers; // Alias for clarity
+$faculty_count = count(faculty_fetch_all($conn, false));
 
 // Student stats
 $english_students = $conn->query("SELECT COUNT(*) as count FROM student_english");
@@ -373,7 +376,8 @@ function safeDateFormat($date, $format = 'M d, Y') {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Admin Dashboard | Ruchi Classes</title>
+<title><?php echo htmlspecialchars(site_settings_page_title_text($conn ?? null, 'Admin Dashboard'), ENT_QUOTES, 'UTF-8'); ?></title>
+<?php echo site_settings_render_favicon_tags($conn ?? null); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -1665,6 +1669,7 @@ function safeDateFormat($date, $format = 'M d, Y') {
                 <li><a href="add_schedule.php"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
                 <li><a href="admin_assign_attendance.php"><i class="fa-solid fa-clipboard-check"></i> Assign Attendance</a></li>
                 <li><a href="admin_videos.php"><i class="fas fa-video"></i> Videos</a></li>
+                <li><a href="admin_faculty.php"><i class="fas fa-user-tie"></i> Faculty</a></li>
             </ul>
         </nav>
         
@@ -1781,6 +1786,16 @@ function safeDateFormat($date, $format = 'M d, Y') {
                 </div>
                 <div class="stat-value"><?php echo $pending_setup; ?></div>
                 <div class="stat-label">Pending Setup</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+                <div class="stat-value"><?php echo $faculty_count; ?></div>
+                <div class="stat-label">Faculty Profiles</div>
             </div>
         </div>
 
