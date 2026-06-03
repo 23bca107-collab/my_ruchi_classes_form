@@ -1540,6 +1540,7 @@ if (isset($_GET['delete_id'])) {
             to { opacity: 1; }
         }
     </style>
+    <link rel="stylesheet" href="admin_nav_cards.css">
 </head>
 <body>
 
@@ -1628,6 +1629,7 @@ if (isset($_GET['delete_id'])) {
             <h3>System Controls</h3>
             <ul class="nav-links">
                 <li><a href="admin_settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="admin_faculty.php"><i class="fas fa-user-tie"></i> Faculty</a></li>
                 <li><a href="admin_logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
@@ -1664,10 +1666,10 @@ if (isset($_GET['delete_id'])) {
                     </div>
                     <div class="quick-profile-info">
                         <div class="quick-profile-name">
-                            <?php echo htmlspecialchars($admin_profile['first_name']); ?>
+                            <?php echo htmlspecialchars(trim((string)($admin_profile['first_name'] ?? '') . ' ' . (string)($admin_profile['last_name'] ?? '')) ?: 'Administrator', ENT_QUOTES, 'UTF-8'); ?>
                         </div>
                         <div class="quick-profile-role">
-                            <?php echo ($admin_type == 'first_admin') ? 'Super Admin' : 'Admin'; ?>
+                            <?php echo (($admin_profile['admin_type'] ?? '') === 'first_admin') ? 'Super Admin' : 'Administrator'; ?>
                         </div>
                     </div>
                 </div>

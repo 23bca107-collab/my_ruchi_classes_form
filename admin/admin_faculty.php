@@ -7,6 +7,7 @@ ob_start();
 require_once 'admin_auth.php';
 require_once __DIR__ . '/../includes/site_settings.php';
 require_once __DIR__ . '/../includes/faculty.php';
+require_once __DIR__ . '/admin_sidebar.php';
 
 requireAdminAuth();
 
@@ -369,11 +370,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_faculty']) && $e
         body {
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background:
-                radial-gradient(circle at top right, rgba(15, 118, 110, 0.14), transparent 30%),
-                linear-gradient(135deg, #f8fafc 0%, #ecfeff 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
             color: var(--text);
-            padding: 32px 18px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .page-shell {
@@ -470,6 +470,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_faculty']) && $e
 
         .content-card {
             padding: 32px;
+        }
+
+        .faculty-content {
+            max-width: 1280px;
+            margin: 0 auto 32px;
         }
 
         .page-head {
@@ -882,44 +887,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_faculty']) && $e
             }
         }
     </style>
+    <?php echo admin_render_sidebar_styles(); ?>
 </head>
 <body>
-    <div class="page-shell">
-        <aside class="sidebar-card">
-            <div class="brand">
-                <img src="../assets/Ruchi logo.jpg" alt="Ruchi Classes Logo">
-                <div>
-                    <h1>Ruchi Classes</h1>
-                    <span>Admin Control Panel</span>
-                </div>
-            </div>
+    <div class="dashboard-container">
+        <?php echo admin_render_sidebar($adminInfo, $conn, 'admin_faculty.php'); ?>
 
-            <div class="admin-chip">
-                <i class="fas fa-user-shield"></i>
-                <?php echo htmlspecialchars($adminInfo['name'] ?: 'Administrator', ENT_QUOTES, 'UTF-8'); ?>
-            </div>
+        <main class="main-content" id="mainContent">
+            <?php echo admin_render_page_header('Faculty Manager', 'Homepage faculty section manage karein', 'fas fa-user-tie', $adminInfo); ?>
 
-            <nav class="nav-links">
-                <a href="admin_dashboard.php">
-                    <i class="fas fa-chart-pie"></i>
-                    Dashboard
-                </a>
-                <a href="admin_faculty.php" class="active">
-                    <i class="fas fa-user-tie"></i>
-                    Faculty
-                </a>
-                <a href="admin_settings.php">
-                    <i class="fas fa-cog"></i>
-                    Settings
-                </a>
-                <a href="admin_logout.php">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
-            </nav>
-        </aside>
-
-        <main class="content-card">
+            <section class="content-card faculty-content">
             <div class="page-head">
                 <div>
                     <div class="eyebrow">
@@ -1171,7 +1148,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_faculty']) && $e
                     </div>
                 <?php endif; ?>
             </section>
+            </section>
         </main>
     </div>
+    <?php echo admin_render_sidebar_script(); ?>
 </body>
 </html>

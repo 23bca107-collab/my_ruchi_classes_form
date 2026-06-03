@@ -1588,6 +1588,7 @@ function safeDateFormat($date, $format = 'M d, Y') {
         to { opacity: 1; }
     }
 </style>
+    <link rel="stylesheet" href="admin_nav_cards.css">
 </head>
 <body>
 
@@ -1669,7 +1670,6 @@ function safeDateFormat($date, $format = 'M d, Y') {
                 <li><a href="add_schedule.php"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
                 <li><a href="admin_assign_attendance.php"><i class="fa-solid fa-clipboard-check"></i> Assign Attendance</a></li>
                 <li><a href="admin_videos.php"><i class="fas fa-video"></i> Videos</a></li>
-                <li><a href="admin_faculty.php"><i class="fas fa-user-tie"></i> Faculty</a></li>
             </ul>
         </nav>
         
@@ -1677,6 +1677,7 @@ function safeDateFormat($date, $format = 'M d, Y') {
             <h3>System Controls</h3>
             <ul class="nav-links">
                 <li><a href="admin_settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="admin_faculty.php"><i class="fas fa-user-tie"></i> Faculty</a></li>
                 <li><a href="admin_logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
@@ -1716,22 +1717,10 @@ function safeDateFormat($date, $format = 'M d, Y') {
                     </div>
                     <div class="quick-profile-info">
                         <div class="quick-profile-name">
-                            <?php 
-                                if (!empty($admin_profile['first_name'])) {
-                                    echo htmlspecialchars($admin_profile['first_name']);
-                                } else {
-                                    echo 'Administrator';
-                                }
-                            ?>
+                            <?php echo htmlspecialchars(trim((string)($admin_profile['first_name'] ?? '') . ' ' . (string)($admin_profile['last_name'] ?? '')) ?: 'Administrator', ENT_QUOTES, 'UTF-8'); ?>
                         </div>
                         <div class="quick-profile-role">
-                            <?php 
-                                if (isset($admin_profile['admin_type']) && $admin_profile['admin_type'] == 'first_admin') {
-                                    echo 'Super Admin';
-                                } else {
-                                    echo 'Admin';
-                                }
-                            ?>
+                            <?php echo (($admin_profile['admin_type'] ?? '') === 'first_admin') ? 'Super Admin' : 'Administrator'; ?>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ ob_start();
 
 require_once 'admin_auth.php';
 require_once __DIR__ . '/../includes/site_settings.php';
+require_once __DIR__ . '/admin_sidebar.php';
 
 requireAdminAuth();
 
@@ -198,11 +199,10 @@ $usingDefaultSiteTitle = trim($currentCustomSiteTitle) === '';
         body {
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background:
-                radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 35%),
-                linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
             color: var(--text);
-            padding: 32px 18px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .settings-shell {
@@ -300,6 +300,11 @@ $usingDefaultSiteTitle = trim($currentCustomSiteTitle) === '';
 
         .content-card {
             padding: 32px;
+        }
+
+        .settings-content {
+            max-width: 1280px;
+            margin: 0 auto 32px;
         }
 
         .page-head {
@@ -586,44 +591,16 @@ $usingDefaultSiteTitle = trim($currentCustomSiteTitle) === '';
             }
         }
     </style>
+    <?php echo admin_render_sidebar_styles(); ?>
 </head>
 <body>
-    <div class="settings-shell">
-        <aside class="sidebar-card">
-            <div class="brand">
-                <img src="../assets/Ruchi logo.jpg" alt="Ruchi Classes">
-                <div>
-                    <h1><?php echo htmlspecialchars($currentSiteTitle, ENT_QUOTES, 'UTF-8'); ?></h1>
-                    <span>Admin Control Panel</span>
-                </div>
-            </div>
+    <div class="dashboard-container">
+        <?php echo admin_render_sidebar($adminInfo, $conn, 'admin_settings.php'); ?>
 
-            <div class="admin-chip">
-                <i class="fas fa-user-shield"></i>
-                <?php echo htmlspecialchars($adminInfo['name'] ?: 'Administrator', ENT_QUOTES, 'UTF-8'); ?>
-            </div>
+        <main class="main-content" id="mainContent">
+            <?php echo admin_render_page_header('Admin Settings', 'Branding aur site controls manage karein', 'fas fa-cog', $adminInfo); ?>
 
-            <nav class="nav-links">
-                <a href="admin_dashboard.php">
-                    <i class="fas fa-chart-pie"></i>
-                    Dashboard
-                </a>
-                <a href="admin_faculty.php">
-                    <i class="fas fa-user-tie"></i>
-                    Faculty
-                </a>
-                <a href="admin_settings.php" class="active">
-                    <i class="fas fa-cog"></i>
-                    Settings
-                </a>
-                <a href="admin_logout.php">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
-            </nav>
-        </aside>
-
-        <main class="content-card">
+            <section class="content-card settings-content">
             <div class="page-head">
                 <div>
                     <div class="eyebrow">Branding Settings</div>
@@ -759,7 +736,9 @@ $usingDefaultSiteTitle = trim($currentCustomSiteTitle) === '';
                     </div>
                 </section>
             </div>
+            </section>
         </main>
     </div>
+    <?php echo admin_render_sidebar_script(); ?>
 </body>
 </html>

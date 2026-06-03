@@ -378,7 +378,8 @@ function sendTeacherInvitationEmail($email, $teacher_id, $setup_token) {
             .button { display: inline-block; padding: 12px 24px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
             .footer { font-size: 12px; color: #777; text-align: center; padding: 20px; border-top: 1px solid #eee; }
         </style>
-    </head>
+        <link rel="stylesheet" href="admin_nav_cards.css">
+</head>
     <body>
         <div class='container'>
             <div class='header'>
@@ -1878,6 +1879,7 @@ $flash_error_message = $error !== '' ? $error : ($_SESSION['error_message'] ?? '
         display: block;
     }
 </style>
+    <link rel="stylesheet" href="admin_nav_cards.css">
 </head>
 <body>
 
@@ -1966,6 +1968,7 @@ $flash_error_message = $error !== '' ? $error : ($_SESSION['error_message'] ?? '
             <h3>System Controls</h3>
             <ul class="nav-links">
                 <li><a href="admin_settings.php"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="admin_faculty.php"><i class="fas fa-user-tie"></i> Faculty</a></li>
                 <li><a href="admin_logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
@@ -2006,22 +2009,10 @@ $flash_error_message = $error !== '' ? $error : ($_SESSION['error_message'] ?? '
                     </div>
                     <div class="quick-profile-info">
                         <div class="quick-profile-name">
-                            <?php 
-                                if (!empty($admin_profile['first_name'])) {
-                                    echo htmlspecialchars($admin_profile['first_name']);
-                                } else {
-                                    echo 'Administrator';
-                                }
-                            ?>
+                            <?php echo htmlspecialchars(trim((string)($admin_profile['first_name'] ?? '') . ' ' . (string)($admin_profile['last_name'] ?? '')) ?: 'Administrator', ENT_QUOTES, 'UTF-8'); ?>
                         </div>
                         <div class="quick-profile-role">
-                            <?php 
-                                if (isset($admin_profile['admin_type']) && $admin_profile['admin_type'] == 'first_admin') {
-                                    echo 'Super Admin';
-                                } else {
-                                    echo 'Admin';
-                                }
-                            ?>
+                            <?php echo (($admin_profile['admin_type'] ?? '') === 'first_admin') ? 'Super Admin' : 'Administrator'; ?>
                         </div>
                     </div>
                 </div>

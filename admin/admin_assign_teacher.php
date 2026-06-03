@@ -1075,6 +1075,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             }
         }
     </style>
+    <link rel="stylesheet" href="admin_nav_cards.css">
 </head>
 <body>
 
@@ -1118,6 +1119,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <h3>System Controls</h3>
             <ul class="nav-links">
                 <li><a href="admin_settings.php" class="<?php echo $current_page == 'admin_settings.php' ? 'active' : ''; ?>"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="admin_faculty.php" class="<?php echo $current_page == 'admin_faculty.php' ? 'active' : ''; ?>"><i class="fas fa-user-tie"></i> Faculty</a></li>
                 <li><a href="admin_logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
@@ -1145,7 +1147,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     </div>
                     <div class="profile-info">
                         <div class="profile-name"><?php echo htmlspecialchars($admin['name']); ?></div>
-                        <div class="profile-role">Teacher Management</div>
+                        <div class="profile-role">Administrator</div>
                     </div>
                 </div>
             </div>
