@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../includes/site_settings.php';
+site_settings_start_favicon_buffer(null);
+
 // Get email from URL
 $email = isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '';
 

@@ -34,6 +34,8 @@ if (isset($_SERVER['HTTP_COOKIE'])) {
 }
 
 // Show SweetAlert logout confirmation and redirect
+require_once __DIR__ . '/../includes/site_settings.php';
+site_settings_start_favicon_buffer(null);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -12,6 +12,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+require_once __DIR__ . '/../includes/site_settings.php';
+site_settings_start_favicon_buffer($conn);
+
 // Log logout activity
 if (isset($_SESSION['teacher_id'])) {
     $teacher_id = $_SESSION['teacher_id'];

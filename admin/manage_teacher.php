@@ -378,7 +378,6 @@ function sendTeacherInvitationEmail($email, $teacher_id, $setup_token) {
             .button { display: inline-block; padding: 12px 24px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
             .footer { font-size: 12px; color: #777; text-align: center; padding: 20px; border-top: 1px solid #eee; }
         </style>
-        <link rel="stylesheet" href="admin_nav_cards.css">
 </head>
     <body>
         <div class='container'>

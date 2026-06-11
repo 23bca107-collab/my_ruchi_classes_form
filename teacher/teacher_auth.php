@@ -19,6 +19,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+require_once __DIR__ . '/../includes/site_settings.php';
+site_settings_start_favicon_buffer($conn);
+
 // Function to check if teacher is authenticated
 function isTeacherAuthenticated() {
     if (!isset($_SESSION['teacher_logged_in']) || $_SESSION['teacher_logged_in'] !== true) {

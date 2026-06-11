@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/faculty.php';
+require_once __DIR__ . '/includes/site_settings.php';
 
 $homepage = __DIR__ . '/ruchihomepage.html';
 
@@ -23,8 +24,10 @@ if ($homepageHtml === false) {
 }
 
 $conn = @new mysqli('localhost', 'root', '', 'ruchi_classes');
+$faviconConn = ($conn instanceof mysqli && !$conn->connect_errno) ? $conn : null;
+site_settings_start_favicon_buffer($faviconConn);
 $facultySectionHtml = faculty_render_homepage_section(
-    ($conn instanceof mysqli && !$conn->connect_errno) ? $conn : null
+    $faviconConn
 );
 
 $facultyPattern = '~<section class="teacher-section" id="Faculty">.*?</section>~s';

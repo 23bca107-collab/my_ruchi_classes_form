@@ -161,18 +161,69 @@ function site_settings_favicon_url($conn, string $fallback = 'assets/Ruchi logo.
     return site_settings_asset_url(site_settings_favicon_relative_path($conn, $fallback));
 }
 
+function site_settings_favicon_endpoint_url(): string
+{
+    $basePath = site_settings_project_base_path();
+
+    return ($basePath === '' ? '' : $basePath) . '/favicon.php';
+}
+
 function site_settings_render_favicon_tags($conn, string $fallback = 'assets/Ruchi logo.jpg'): string
 {
-    $relativePath = site_settings_favicon_relative_path($conn, $fallback);
-    $faviconUrl = site_settings_asset_url($relativePath);
+    $faviconUrl = site_settings_favicon_endpoint_url();
 
     if ($faviconUrl === '') {
         return '';
     }
 
     $escapedUrl = htmlspecialchars($faviconUrl, ENT_QUOTES, 'UTF-8');
-    $iconType = htmlspecialchars(site_settings_guess_icon_type($relativePath), ENT_QUOTES, 'UTF-8');
+    $iconType = '';
 
-    return '<link rel="icon" type="' . $iconType . '" href="' . $escapedUrl . '">' . PHP_EOL
+    if ($conn instanceof mysqli) {
+        $relativePath = site_settings_favicon_relative_path($conn, $fallback);
+        $iconType = ' type="' . htmlspecialchars(site_settings_guess_icon_type($relativePath), ENT_QUOTES, 'UTF-8') . '"';
+    }
+
+    return '<link rel="icon"' . $iconType . ' href="' . $escapedUrl . '">' . PHP_EOL
         . '<link rel="shortcut icon" href="' . $escapedUrl . '">';
+}
+
+function site_settings_html_has_favicon(string $html): bool
+{
+    return stripos($html, 'rel="icon"') !== false
+        || stripos($html, "rel='icon'") !== false
+        || stripos($html, 'shortcut icon') !== false
+        || stripos($html, 'apple-touch-icon') !== false;
+}
+
+function site_settings_inject_favicon_into_html(string $html, $conn): string
+{
+    if ($html === '' || stripos($html, '<head') === false || site_settings_html_has_favicon($html)) {
+        return $html;
+    }
+
+    $faviconTags = site_settings_render_favicon_tags($conn);
+    if ($faviconTags === '') {
+        return $html;
+    }
+
+    $replacement = PHP_EOL . '    ' . $faviconTags . PHP_EOL;
+    $updatedHtml = preg_replace('~</head>~i', $replacement . '</head>', $html, 1);
+
+    return is_string($updatedHtml) ? $updatedHtml : $html;
+}
+
+function site_settings_start_favicon_buffer($conn): void
+{
+    static $bufferStarted = false;
+
+    if ($bufferStarted || php_sapi_name() === 'cli' || headers_sent()) {
+        return;
+    }
+
+    $bufferStarted = true;
+
+    ob_start(static function (string $buffer) use ($conn): string {
+        return site_settings_inject_favicon_into_html($buffer, $conn);
+    });
 }
