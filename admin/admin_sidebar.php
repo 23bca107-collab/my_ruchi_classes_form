@@ -695,6 +695,7 @@ if (!function_exists('admin_render_sidebar')) {
                     <li><a href="admin_profile_edit.php"<?php echo admin_sidebar_active_class($activePage, 'admin_profile_edit.php'); ?>><i class="fas fa-user-edit"></i> Edit Profile</a></li>
                     <li><a href="manage_teacher.php"<?php echo admin_sidebar_active_class($activePage, 'manage_teacher.php'); ?>><i class="fas fa-chalkboard-teacher"></i> Teachers</a></li>
                     <li><a href="admission_report.php"<?php echo admin_sidebar_active_class($activePage, 'admission_report.php'); ?>><i class="fas fa-user-graduate"></i> Students</a></li>
+                    <li><a href="admin_manage_student_edit.php"<?php echo admin_sidebar_active_class($activePage, 'admin_manage_student_edit.php'); ?>><i class="fas fa-edit"></i> Manage Students</a></li>
                     <li><a href="admin_assign_students.php"<?php echo admin_sidebar_active_class($activePage, 'admin_assign_students.php'); ?>><i class="fas fa-users"></i> Assign Students</a></li>
                     <li><a href="admin_complaints.php"<?php echo admin_sidebar_active_class($activePage, 'admin_complaints.php'); ?>><i class="fas fa-comment-dots"></i> Complaints</a></li>
                     <li><a href="add_schedule.php"<?php echo admin_sidebar_active_class($activePage, 'add_schedule.php'); ?>><i class="fas fa-calendar-alt"></i> Schedule</a></li>

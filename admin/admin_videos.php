@@ -1681,6 +1681,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <li><a href="manage_teacher.php"><i class="fas fa-chalkboard-teacher"></i> Teachers</a></li>
                 <li><a href="admission_report.php"><i class="fas fa-user-graduate"></i> Students</a></li>
                 <li><a href="admin_assign_students.php"><i class="fas fa-users"></i> Assign Students</a></li>
+                <li><a href="admin_manage_student_edit.php"><i class="fas fa-edit"></i> Manage Students</a></li>
                 <li><a href="admin_complaints.php"><i class="fas fa-comment-dots"></i> Complaints</a></li>
                 <li><a href="add_schedule.php"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
                 <li><a href="admin_assign_attendance.php"><i class="fa-solid fa-clipboard-check"></i> Assign Attendance</a></li>
